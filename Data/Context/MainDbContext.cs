@@ -1,5 +1,5 @@
-                                                                                                                                                                             using CodingLibraryDSR.Data.Entity;
-                                                                                                                                                                             using Microsoft.AspNetCore.Mvc;
+using CodingLibraryDSR.Data.Entity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace CodingLibraryDSR.Data.Context;
