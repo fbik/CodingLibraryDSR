@@ -1,5 +1,6 @@
 using CodingLibraryDSR.Data.Context;
 using CodingLibraryDSR.Data.Setup;
+using Services.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextFactory<MainDbContext>();
+builder.Services.AddScoped<LanguagesService>();
+builder.Services.AddScoped<CategoriesService>();
+builder.Services.AddScoped<CommentsService>();
+builder.Services.AddScoped<ProblemsService>();
+builder.Services.AddScoped<SubscritionsService>();
+builder.Services.AddScoped<UsersService>();
+
 
 var app = builder.Build();
 
