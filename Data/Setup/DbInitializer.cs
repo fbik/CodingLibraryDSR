@@ -12,8 +12,7 @@ static class DbInitializer
 
         var dbContextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<MainDbContext>>();
         var context = dbContextFactory.CreateDbContext();
-
-        context.Database.EnsureDeleted();
-        context.Database.EnsureCreated();
+        context.Database.Migrate(); //Миграция
+        
     }
 }
