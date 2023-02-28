@@ -1,12 +1,26 @@
+using AutoMapper;
+using CodingLibraryDSR.Data.Context;
 using CodingLibraryDSR.Services.Models;
 
 namespace Services.Models;
 
+public class SubscriptionsService
+{
+    private readonly MainDbContext _mainDbContext;
+    private readonly IMapper _mapper;
 
-public class SubscritionsService
+    public SubscriptionsService(MainDbContext mainDbContext, IMapper mapper)
     {
-        public Task<ICollection<SubscriptionsModel>> GetAllSubscriptions()
-        {
-            return Task.FromResult<ICollection<SubscriptionsModel>>(new List<SubscriptionsModel>());
-        }
+        _mapper = mapper;
+        _mainDbContext = mainDbContext;
     }
+    
+    public Task<ICollection<SubscriptionsModel>> GetAllSubscriptions()
+    {
+        var subscriptions = _mainDbContext
+            .Subscriptions
+            .Select(l => _mapper.Map<SubscriptionsModel>(l))
+            .ToList();
+        return Task.FromResult<ICollection<SubscriptionsModel>>(subscriptions);
+    }
+}
