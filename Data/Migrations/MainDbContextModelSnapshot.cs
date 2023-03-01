@@ -29,9 +29,8 @@ namespace CodingLibraryDSR.Data.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("uid");
 
-                    b.Property<string>("DifficultyIndex")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("DifficultyIndex")
+                        .HasColumnType("integer")
                         .HasColumnName("difficulty_index");
 
                     b.Property<string>("Title")
@@ -65,26 +64,26 @@ namespace CodingLibraryDSR.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("left_time");
 
-                    b.Property<Guid?>("ProblemsUid")
+                    b.Property<Guid>("ProblemUid")
                         .HasColumnType("uuid")
-                        .HasColumnName("problems_uid");
+                        .HasColumnName("problem_uid");
 
-                    b.Property<Guid?>("UsersUid")
+                    b.Property<Guid>("UserUid")
                         .HasColumnType("uuid")
-                        .HasColumnName("users_uid");
+                        .HasColumnName("user_uid");
 
                     b.HasKey("Uid")
                         .HasName("pk_comments");
 
-                    b.HasIndex("ProblemsUid")
-                        .HasDatabaseName("ix_comments_problems_uid");
+                    b.HasIndex("ProblemUid")
+                        .HasDatabaseName("ix_comments_problem_uid");
 
                     b.HasIndex("Uid")
                         .IsUnique()
                         .HasDatabaseName("ix_comments_uid");
 
-                    b.HasIndex("UsersUid")
-                        .HasDatabaseName("ix_comments_users_uid");
+                    b.HasIndex("UserUid")
+                        .HasDatabaseName("ix_comments_user_uid");
 
                     b.ToTable("comments", (string)null);
                 });
@@ -123,23 +122,22 @@ namespace CodingLibraryDSR.Data.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("uid");
 
-                    b.Property<Guid?>("CategoriesUid")
+                    b.Property<Guid>("CategoryUid")
                         .HasColumnType("uuid")
-                        .HasColumnName("categories_uid");
+                        .HasColumnName("category_uid");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<string>("DifficultIndex")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("DifficultIndex")
+                        .HasColumnType("integer")
                         .HasColumnName("difficult_index");
 
-                    b.Property<Guid?>("LanguagesUid")
+                    b.Property<Guid>("LanguageUid")
                         .HasColumnType("uuid")
-                        .HasColumnName("languages_uid");
+                        .HasColumnName("language_uid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -154,11 +152,11 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.HasKey("Uid")
                         .HasName("pk_problems");
 
-                    b.HasIndex("CategoriesUid")
-                        .HasDatabaseName("ix_problems_categories_uid");
+                    b.HasIndex("CategoryUid")
+                        .HasDatabaseName("ix_problems_category_uid");
 
-                    b.HasIndex("LanguagesUid")
-                        .HasDatabaseName("ix_problems_languages_uid");
+                    b.HasIndex("LanguageUid")
+                        .HasDatabaseName("ix_problems_language_uid");
 
                     b.HasIndex("Uid")
                         .IsUnique()
@@ -174,31 +172,31 @@ namespace CodingLibraryDSR.Data.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("uid");
 
-                    b.Property<Guid?>("ProblemsUid")
+                    b.Property<Guid>("ProblemUid")
                         .HasColumnType("uuid")
-                        .HasColumnName("problems_uid");
+                        .HasColumnName("problem_uid");
 
                     b.Property<string>("StatusSubscriptions")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("status_subscriptions");
 
-                    b.Property<Guid?>("UsersUid")
+                    b.Property<Guid>("UserUid")
                         .HasColumnType("uuid")
-                        .HasColumnName("users_uid");
+                        .HasColumnName("user_uid");
 
                     b.HasKey("Uid")
                         .HasName("pk_subscriptions");
 
-                    b.HasIndex("ProblemsUid")
-                        .HasDatabaseName("ix_subscriptions_problems_uid");
+                    b.HasIndex("ProblemUid")
+                        .HasDatabaseName("ix_subscriptions_problem_uid");
 
                     b.HasIndex("Uid")
                         .IsUnique()
                         .HasDatabaseName("ix_subscriptions_uid");
 
-                    b.HasIndex("UsersUid")
-                        .HasDatabaseName("ix_subscriptions_users_uid");
+                    b.HasIndex("UserUid")
+                        .HasDatabaseName("ix_subscriptions_user_uid");
 
                     b.ToTable("subscriptions", (string)null);
                 });
@@ -242,41 +240,65 @@ namespace CodingLibraryDSR.Data.Migrations
 
             modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Comments", b =>
                 {
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Problems", null)
+                    b.HasOne("CodingLibraryDSR.Data.Entity.Problems", "Problem")
                         .WithMany("Comments")
-                        .HasForeignKey("ProblemsUid")
-                        .HasConstraintName("fk_comments_problems_problems_temp_id");
+                        .HasForeignKey("ProblemUid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_comments_problems_problem_temp_id");
 
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Users", null)
+                    b.HasOne("CodingLibraryDSR.Data.Entity.Users", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UsersUid")
-                        .HasConstraintName("fk_comments_users_users_uid");
+                        .HasForeignKey("UserUid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_comments_users_user_temp_id");
+
+                    b.Navigation("Problem");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Problems", b =>
                 {
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Categories", null)
+                    b.HasOne("CodingLibraryDSR.Data.Entity.Categories", "Category")
                         .WithMany("Problems")
-                        .HasForeignKey("CategoriesUid")
-                        .HasConstraintName("fk_problems_categories_categories_uid");
+                        .HasForeignKey("CategoryUid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_problems_categories_category_uid");
 
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Languages", null)
+                    b.HasOne("CodingLibraryDSR.Data.Entity.Languages", "Language")
                         .WithMany("Problems")
-                        .HasForeignKey("LanguagesUid")
-                        .HasConstraintName("fk_problems_languages_languages_uid");
+                        .HasForeignKey("LanguageUid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_problems_languages_language_uid");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Language");
                 });
 
             modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Subscriptions", b =>
                 {
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Problems", null)
+                    b.HasOne("CodingLibraryDSR.Data.Entity.Problems", "Problem")
                         .WithMany("Subscritions")
-                        .HasForeignKey("ProblemsUid")
-                        .HasConstraintName("fk_subscriptions_problems_problems_uid");
+                        .HasForeignKey("ProblemUid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_subscriptions_problems_problem_uid");
 
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Users", null)
+                    b.HasOne("CodingLibraryDSR.Data.Entity.Users", "User")
                         .WithMany("Subscritions")
-                        .HasForeignKey("UsersUid")
-                        .HasConstraintName("fk_subscriptions_users_users_uid");
+                        .HasForeignKey("UserUid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_subscriptions_users_user_temp_id1");
+
+                    b.Navigation("Problem");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Categories", b =>

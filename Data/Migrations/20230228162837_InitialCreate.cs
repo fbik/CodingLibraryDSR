@@ -17,7 +17,7 @@ namespace CodingLibraryDSR.Data.Migrations
                 {
                     uid = table.Column<Guid>(type: "uuid", nullable: false),
                     title = table.Column<string>(type: "text", nullable: false),
-                    difficulty_index = table.Column<string>(type: "text", nullable: false)
+                    difficulty_index = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,23 +60,25 @@ namespace CodingLibraryDSR.Data.Migrations
                     name = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     solution = table.Column<string>(type: "text", nullable: false),
-                    difficult_index = table.Column<string>(type: "text", nullable: false),
-                    categories_uid = table.Column<Guid>(type: "uuid", nullable: true),
-                    languages_uid = table.Column<Guid>(type: "uuid", nullable: true)
+                    difficult_index = table.Column<int>(type: "integer", nullable: false),
+                    category_uid = table.Column<Guid>(type: "uuid", nullable: false),
+                    language_uid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_problems", x => x.uid);
                     table.ForeignKey(
-                        name: "fk_problems_categories_categories_uid",
-                        column: x => x.categories_uid,
+                        name: "fk_problems_categories_category_uid",
+                        column: x => x.category_uid,
                         principalTable: "categories",
-                        principalColumn: "uid");
+                        principalColumn: "uid",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_problems_languages_languages_uid",
-                        column: x => x.languages_uid,
+                        name: "fk_problems_languages_language_uid",
+                        column: x => x.language_uid,
                         principalTable: "languages",
-                        principalColumn: "uid");
+                        principalColumn: "uid",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,22 +88,24 @@ namespace CodingLibraryDSR.Data.Migrations
                     uid = table.Column<Guid>(type: "uuid", nullable: false),
                     content_comments = table.Column<string>(type: "text", nullable: false),
                     left_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    problems_uid = table.Column<Guid>(type: "uuid", nullable: true),
-                    users_uid = table.Column<Guid>(type: "uuid", nullable: true)
+                    problem_uid = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_uid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_comments", x => x.uid);
                     table.ForeignKey(
-                        name: "fk_comments_problems_problems_temp_id",
-                        column: x => x.problems_uid,
+                        name: "fk_comments_problems_problem_temp_id",
+                        column: x => x.problem_uid,
                         principalTable: "problems",
-                        principalColumn: "uid");
+                        principalColumn: "uid",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_comments_users_users_uid",
-                        column: x => x.users_uid,
+                        name: "fk_comments_users_user_temp_id",
+                        column: x => x.user_uid,
                         principalTable: "users",
-                        principalColumn: "uid");
+                        principalColumn: "uid",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,22 +114,24 @@ namespace CodingLibraryDSR.Data.Migrations
                 {
                     uid = table.Column<Guid>(type: "uuid", nullable: false),
                     status_subscriptions = table.Column<string>(type: "text", nullable: false),
-                    problems_uid = table.Column<Guid>(type: "uuid", nullable: true),
-                    users_uid = table.Column<Guid>(type: "uuid", nullable: true)
+                    problem_uid = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_uid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_subscriptions", x => x.uid);
                     table.ForeignKey(
-                        name: "fk_subscriptions_problems_problems_uid",
-                        column: x => x.problems_uid,
+                        name: "fk_subscriptions_problems_problem_uid",
+                        column: x => x.problem_uid,
                         principalTable: "problems",
-                        principalColumn: "uid");
+                        principalColumn: "uid",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_subscriptions_users_users_uid",
-                        column: x => x.users_uid,
+                        name: "fk_subscriptions_users_user_temp_id1",
+                        column: x => x.user_uid,
                         principalTable: "users",
-                        principalColumn: "uid");
+                        principalColumn: "uid",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -135,9 +141,9 @@ namespace CodingLibraryDSR.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_comments_problems_uid",
+                name: "ix_comments_problem_uid",
                 table: "comments",
-                column: "problems_uid");
+                column: "problem_uid");
 
             migrationBuilder.CreateIndex(
                 name: "ix_comments_uid",
@@ -146,9 +152,9 @@ namespace CodingLibraryDSR.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_comments_users_uid",
+                name: "ix_comments_user_uid",
                 table: "comments",
-                column: "users_uid");
+                column: "user_uid");
 
             migrationBuilder.CreateIndex(
                 name: "ix_languages_uid",
@@ -157,14 +163,14 @@ namespace CodingLibraryDSR.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_problems_categories_uid",
+                name: "ix_problems_category_uid",
                 table: "problems",
-                column: "categories_uid");
+                column: "category_uid");
 
             migrationBuilder.CreateIndex(
-                name: "ix_problems_languages_uid",
+                name: "ix_problems_language_uid",
                 table: "problems",
-                column: "languages_uid");
+                column: "language_uid");
 
             migrationBuilder.CreateIndex(
                 name: "ix_problems_uid",
@@ -173,9 +179,9 @@ namespace CodingLibraryDSR.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_subscriptions_problems_uid",
+                name: "ix_subscriptions_problem_uid",
                 table: "subscriptions",
-                column: "problems_uid");
+                column: "problem_uid");
 
             migrationBuilder.CreateIndex(
                 name: "ix_subscriptions_uid",
@@ -184,9 +190,9 @@ namespace CodingLibraryDSR.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_subscriptions_users_uid",
+                name: "ix_subscriptions_user_uid",
                 table: "subscriptions",
-                column: "users_uid");
+                column: "user_uid");
 
             migrationBuilder.CreateIndex(
                 name: "ix_users_uid",

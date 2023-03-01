@@ -9,7 +9,7 @@ public class Categories : BaseEntity
     /// <summary>
     /// Сделать Title Enum
     /// </summary>
-    public string DifficultyIndex { get; set; }
+    public int DifficultyIndex { get; set; }
 
     public virtual ICollection<Problems> Problems { get; set; }
 }

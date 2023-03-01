@@ -1,8 +1,9 @@
+
 namespace CodingLibraryDSR.Services.Models;
 
 public class ProblemsModel
 {
-    public int Id { get; set; }
+    public Guid Uid { get; set; }
     public int LanguagesId { get; set; }
     public int CategoriesId { get; set; }
     public string Description { get; set; } = String.Empty;
