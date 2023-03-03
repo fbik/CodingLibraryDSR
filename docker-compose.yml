@@ -1,20 +1,20 @@
 version: "3.8"
 
 services:
-  app: 
-    image: app-image
+  api: 
+    image: api-image
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Api/Dockerfile
     depends_on:
-      - db  
+      - api-db  
     ports:
       - "10000:80"  
     environment:
       ASPNETCORE_ENVIRONMENT: Production
   
-  db: 
-    container_name: db
+  api-db: 
+    container_name: api-db
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: strong

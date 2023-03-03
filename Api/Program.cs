@@ -35,4 +35,4 @@ app.UseAuthorization();
 app.MapControllers();
 DbInitializer.Initialize(app.Services);
 
-app.Run();                      
+app.Run();
