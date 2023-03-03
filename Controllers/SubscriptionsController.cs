@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 public class SubscriptionsController : ControllerBase
 {
-    private readonly SubscritionsService _subscritionsService;
+    private readonly SubscriptionsService _subscritionsService;
 
-    public SubscriptionsController(SubscritionsService subscriptionsService)
+    public SubscriptionsController(SubscriptionsService subscriptionsService)
     {
         _subscritionsService = subscriptionsService;
     }

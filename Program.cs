@@ -15,8 +15,9 @@ builder.Services.AddScoped<LanguagesService>();
 builder.Services.AddScoped<CategoriesService>();
 builder.Services.AddScoped<CommentsService>();
 builder.Services.AddScoped<ProblemsService>();
-builder.Services.AddScoped<SubscritionsService>();
+builder.Services.AddScoped<SubscriptionsService>();
 builder.Services.AddScoped<UsersService>();
+builder.Services.AddAutoMapper(typeof(Program));
 
 
 var app = builder.Build();
