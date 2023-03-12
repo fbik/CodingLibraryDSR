@@ -1,4 +1,4 @@
-namespace CodingLibraryDSR.Data.Entity;
+namespace Api.CodingLibraryDSR.Data.Entity;
 
 public class Users : BaseEntity
 {

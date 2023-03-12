@@ -1,8 +1,11 @@
 using AutoMapper;
-using CodingLibraryDSR.Data.Context;
-using CodingLibraryDSR.Services.Models;
+using Api.CodingLibraryDSR.Data.Context;
+using Api.CodingLibraryDSR.Services.Models;
+using Api.CodingLibraryDSR.Data.Entity;
+using Api.Services.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Services.Models;
+namespace Api.Services;
 
 
     public class CategoriesService
@@ -24,5 +27,30 @@ namespace Services.Models;
                 .Select(l => _mapper.Map<CategoriesModel>(l))
                 .ToList();
             return Task.FromResult<ICollection<CategoriesModel>>(categories);
+        }
+        
+        public void SaveCategory(PostCategoriesModel postCategoriesModel)
+        {
+            var result = _mapper.Map<Categories>(postCategoriesModel);
+            _mainDbContext.Categories.Add(result);
+            _mainDbContext.SaveChanges();
+        }
+        
+        public void UpdateCategory(UpdateCategoriesModel updateCategoriesModel)
+        {
+            var result = _mapper.Map<Categories>(updateCategoriesModel);
+            _mainDbContext.Categories.Update(result);
+            _mainDbContext.SaveChanges();
+        }
+        
+        public void DeleteCategory(DeleteCategoriesModel deleteCategoriesModel)
+        {
+            var category = _mainDbContext
+                .Categories
+                .First(x => x.Uid == deleteCategoriesModel.Uid);
+
+
+            _mainDbContext.Categories.Remove(category);
+            _mainDbContext.SaveChanges();
         }
     }

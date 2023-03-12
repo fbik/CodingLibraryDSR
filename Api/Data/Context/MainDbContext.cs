@@ -1,8 +1,8 @@
-using CodingLibraryDSR.Data.Entity;
+using Api.CodingLibraryDSR.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace CodingLibraryDSR.Data.Context;
+namespace Api.CodingLibraryDSR.Data.Context;
 
 using Microsoft.EntityFrameworkCore;
 

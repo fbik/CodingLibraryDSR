@@ -1,6 +1,6 @@
-using CodingLibraryDSR.Data.Context;
-using CodingLibraryDSR.Data.Setup;
-using Services.Models;
+using Api.CodingLibraryDSR.Data.Context;
+using Api.CodingLibraryDSR.Data.Setup;
+using Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

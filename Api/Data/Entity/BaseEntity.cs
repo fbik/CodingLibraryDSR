@@ -1,9 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-
-namespace CodingLibraryDSR.Data.Entity;
+namespace Api.CodingLibraryDSR.Data.Entity;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 [Index("Uid", IsUnique = true)]
 public abstract class BaseEntity

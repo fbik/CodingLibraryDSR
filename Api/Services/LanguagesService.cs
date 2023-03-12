@@ -1,8 +1,10 @@
-using CodingLibraryDSR.Services.Models;
-using CodingLibraryDSR.Data.Context;
+using Api.CodingLibraryDSR.Services.Models;
+using Api.CodingLibraryDSR.Data.Context;
+using Api.CodingLibraryDSR.Data.Entity;
+using Api.Services.Models;
 using AutoMapper;
 
-namespace Services.Models;
+namespace Api.Services;
 
     public class LanguagesService
     {
@@ -23,5 +25,30 @@ namespace Services.Models;
                 .ToList();
             
             return Task.FromResult<ICollection<LanguagesModel>>(languages);
+        }
+
+        public void SaveLanguages(PostLanguagesModel postLanguagesModel)
+        {
+            var result = _mapper.Map<Languages>(postLanguagesModel);
+            _mainDbContext.Languages.Add(result);
+            _mainDbContext.SaveChanges();
+        }
+
+        public void UpdateLanguage(UpdateLanguagesModel updateLanguagesModel)
+        {
+            var result = _mapper.Map<Languages>(updateLanguagesModel);
+            _mainDbContext.Languages.Update(result);
+            _mainDbContext.SaveChanges();
+        }
+
+        public void DeleteLanguage(DeleteLanguagesModel deleteLanguagesModel)
+        {
+            var language = _mainDbContext
+                .Languages
+                .First(x => x.Uid == deleteLanguagesModel.Uid);
+
+
+            _mainDbContext.Languages.Remove(language);
+            _mainDbContext.SaveChanges();
         }
     }
