@@ -1,4 +1,6 @@
-namespace CodingLibraryDSR.Data.Entity;
+using Api.CodingLibraryDSR.Data.Entity;
+
+namespace Api.CodingLibraryDSR.Data.Entity;
 
 public class Subscriptions : BaseEntity
 {

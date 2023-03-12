@@ -1,4 +1,4 @@
-namespace CodingLibraryDSR.Services.Models;
+namespace Api.CodingLibraryDSR.Services.Models;
 
 public class LanguagesModel
 {

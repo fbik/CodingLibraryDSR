@@ -1,7 +1,8 @@
-using CodingLibraryDSR.Services.Models;
-using Services.Models;
+using Api.CodingLibraryDSR.Services.Models;
+using Api.Services;
+using Api.Services.Models;
 
-namespace CodingLibraryDSR.Controllers;
+namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -21,5 +22,28 @@ public class CategoriesController : ControllerBase
     {
         var result = await _categoriesService.GetAllCategories();
         return result;
+    }
+    
+    [HttpPost("add")]
+
+    public IActionResult Post([FromBody] PostCategoriesModel request)
+    {
+        _categoriesService.SaveCategory(request);
+        return Ok("CategoriesPost");
+    }
+    
+    [HttpPut("put")]
+    public IActionResult Update([FromBody] UpdateCategoriesModel updateCategoriesModel)
+    {
+        _categoriesService.UpdateCategory(updateCategoriesModel);
+        return Ok("CategoryPut");
+    }
+    
+    [HttpDelete("delete")]
+
+    public IActionResult Delete([FromBody] DeleteCategoriesModel deleteCategoriesModel)
+    {
+        _categoriesService.DeleteCategory(deleteCategoriesModel);
+        return Ok("CategoryDelete");
     }
 }

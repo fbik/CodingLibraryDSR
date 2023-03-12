@@ -1,8 +1,8 @@
+using Api.CodingLibraryDSR.Services.Models;
+using Api.Services;
+using Api.Services.Models;
 
-using CodingLibraryDSR.Services.Models;
-using Services.Models;
-
-namespace CodingLibraryDSR.Controllers;
+namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -23,5 +23,27 @@ public class ProblemsController : ControllerBase
     {
         var result = await _problemsService.GetAllProblems();
         return result;
+    }
+
+    [HttpPost("add")]
+
+    public IActionResult Post([FromBody] PostProblemsModel request)
+    {
+        _problemsService.SaveProblems(request);
+        return Ok("ProblemsPost");
+    }
+
+    [HttpPut("update")]
+    public IActionResult Update([FromBody] UpdateProblemsModel updateProblemsModel)
+    {
+        _problemsService.UpdateProblems(updateProblemsModel);
+        return Ok("ProblemsPut");
+    }
+    
+    [HttpDelete("delete")]
+    public IActionResult Delete([FromBody] DeleteProblemsModel deleteProblemsModel)
+    {
+        _problemsService.DeleteProblem(deleteProblemsModel);
+        return Ok("ProblemDelete");
     }
 }

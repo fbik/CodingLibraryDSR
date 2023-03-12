@@ -1,8 +1,11 @@
 using AutoMapper;
-using CodingLibraryDSR.Data.Context;
-using CodingLibraryDSR.Services.Models;
+using Api.CodingLibraryDSR.Data.Context;
+using Api.CodingLibraryDSR.Data.Entity;
+using Api.CodingLibraryDSR.Services.Models;
+using Api.Services.Models;
 
-namespace Services.Models;
+namespace Api.Services;
+
 
 public class UsersService
 {
@@ -23,5 +26,30 @@ public class UsersService
             .ToList();
         
         return Task.FromResult<ICollection<UsersModel>>(users);
+    }
+
+    public void SaveUsers(PostUsersModel postUsersModel)
+    {
+        var result = _mapper.Map<Users>(postUsersModel);
+        _mainDbContext.Users.Add(result);
+        _mainDbContext.SaveChanges();
+    }
+    
+    public void UpdateUser(UpdateUsersModel updateUsersModel)
+    {
+        var result = _mapper.Map<Users>(updateUsersModel);
+        _mainDbContext.Users.Update(result);
+        _mainDbContext.SaveChanges();
+    }
+    
+    public void DeleteUser(DeleteUsersModel deleteUsersModel)
+    {
+        var user = _mainDbContext
+            .Users
+            .First(x => x.Uid == deleteUsersModel.Uid);
+
+
+        _mainDbContext.Users.Remove(user);
+        _mainDbContext.SaveChanges();
     }
 }

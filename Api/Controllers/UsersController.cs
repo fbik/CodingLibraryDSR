@@ -1,7 +1,8 @@
-using CodingLibraryDSR.Services.Models;
-using Services.Models;
+using Api.CodingLibraryDSR.Services.Models;
+using Api.Services.Models;
+using Api.Services;
 
-namespace CodingLibraryDSR.Controllers;
+namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -21,5 +22,29 @@ public class UsersController : ControllerBase
     {
         var result = await _usersService.GetAllUsers();
         return result;
+    }
+    
+    [HttpPost("add")]
+
+    public IActionResult Post([FromBody] PostUsersModel request)
+    {
+        _usersService.SaveUsers(request);
+        return Ok("UsersPost");
+    }
+    
+    [HttpPut("update")]
+
+    public IActionResult Update([FromBody] UpdateUsersModel updateUsersModel)
+    {
+        _usersService.UpdateUser(updateUsersModel);
+        return Ok("UsersPut");
+    }
+    
+    [HttpDelete("delete")]
+
+    public IActionResult Delete([FromBody] DeleteUsersModel deleteUsersModel)
+    {
+        _usersService.DeleteUser(deleteUsersModel);
+        return Ok("UserDelete");
     }
 }

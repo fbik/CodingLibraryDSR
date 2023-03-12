@@ -1,8 +1,9 @@
 using AutoMapper;
-using CodingLibraryDSR.Data.Context;
-using CodingLibraryDSR.Services.Models;
+using Api.CodingLibraryDSR.Data.Context;
+using Api.CodingLibraryDSR.Data.Entity;
+using Api.CodingLibraryDSR.Services.Models;
 
-namespace Services.Models;
+namespace Api.Services;
 
 public class SubscriptionsService
 {
@@ -22,5 +23,30 @@ public class SubscriptionsService
             .Select(l => _mapper.Map<SubscriptionsModel>(l))
             .ToList();
         return Task.FromResult<ICollection<SubscriptionsModel>>(subscriptions);
+    }
+    
+    public void SaveSubscription(PostSubscriptionsModel postSubscriptionsModel)
+    {
+        var result = _mapper.Map<Subscriptions>(postSubscriptionsModel);
+        _mainDbContext.Subscriptions.Add(result);
+        _mainDbContext.SaveChanges();
+    }
+    
+    public void UpdateSubscription(UpdateSubscriptionsModel updateSubscriptionsModel)
+    {
+        var result = _mapper.Map<Subscriptions>(updateSubscriptionsModel);
+        _mainDbContext.Subscriptions.Update(result);
+        _mainDbContext.SaveChanges();
+    }
+    
+    public void DeleteSubscription(DeleteSubscriptionsModel deleteSubscriptionsModel)
+    {
+        var subscription = _mainDbContext
+            .Subscriptions
+            .First(x => x.Uid == deleteSubscriptionsModel.Uid);
+
+
+        _mainDbContext.Subscriptions.Remove(subscription);
+        _mainDbContext.SaveChanges();
     }
 }
