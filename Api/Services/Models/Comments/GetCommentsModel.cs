@@ -1,7 +1,8 @@
-namespace Api.Services.Models;
 using FluentValidation;
 
-public class UpdateCommentsModel
+namespace Api.Services.Models;
+
+public class GetCommentsModel
 {
     public Guid Uid { get; set; }
     public Guid UsersId { get; set; }
@@ -10,9 +11,9 @@ public class UpdateCommentsModel
     public DateTime LeftTime { get; set; }
 }
 
-public class UpdateCommentsModelValidator : AbstractValidator<UpdateCommentsModel>
+public class GetCommentsModelValidator : AbstractValidator<GetCommentsModel>
 {
-    public UpdateCommentsModelValidator()
+    public GetCommentsModelValidator()
     {
         RuleFor(x => x.ContentComments)
             .NotEmpty().WithMessage("ContentsComment is required.")

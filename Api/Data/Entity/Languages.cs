@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using Api.CodingLibraryDSR.Data.Entity;
 
-namespace CodingLibraryDSR.Data.Entity;
+namespace Api.CodingLibraryDSR.Data.Entity;
 
 public class Languages : BaseEntity
 {

@@ -16,7 +16,7 @@ public class GetProblemsModelValidator : AbstractValidator<GetProblemsModel>
     public GetProblemsModelValidator()
     {
         RuleFor(x => x.Uid)
-            .NotEmpty().WithMessage("Problems is required.");
+            .NotEmpty().WithMessage("Id is required.");
 
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("Description is required.")

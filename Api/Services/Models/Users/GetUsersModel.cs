@@ -15,11 +15,11 @@ public class GetUsersModelValidator : AbstractValidator<GetUsersModel>
     public GetUsersModelValidator()
     {
         RuleFor(x => x.Uid)
-            .NotEmpty().WithMessage("Users is required.");
+            .NotEmpty().WithMessage("Id is required.");
 
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Name is required.")
-            .MaximumLength(100).WithMessage("Name is long.");
+            .MaximumLength(30).WithMessage("Name is long.");
 
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")
@@ -27,7 +27,7 @@ public class GetUsersModelValidator : AbstractValidator<GetUsersModel>
 
         RuleFor(x => x.PasswordHash)
             .NotEmpty().WithMessage("Password is required.")
-            .MaximumLength(100).WithMessage("Password is long.");
+            .MaximumLength(20).WithMessage("Password is long.");
 
         RuleFor(x => x.UserStatus)
             .NotEmpty().WithMessage("UserStatus is required.");

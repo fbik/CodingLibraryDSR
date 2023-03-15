@@ -13,11 +13,11 @@ public class PostCategoriesModelValidator : AbstractValidator<PostCategoriesMode
     public PostCategoriesModelValidator()
     {
         RuleFor(x => x.Uid)
-            .NotEmpty().WithMessage("Categories is required.");
+            .NotEmpty().WithMessage("Id is required.");
 
         RuleFor(x => x.Title)
-            .NotEmpty().WithMessage("Categories is required.")
-            .MaximumLength(200).WithMessage("Title is long.");
+            .NotEmpty().WithMessage("Title is required.")
+            .MaximumLength(50).WithMessage("Title is long.");
 
         RuleFor(x => x.DifficultyIndex)
             .NotEmpty().WithMessage("DifficultIndex is required.");

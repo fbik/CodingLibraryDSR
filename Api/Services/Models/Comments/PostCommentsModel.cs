@@ -16,7 +16,7 @@ public class PostCommentsModelValidator : AbstractValidator<PostCommentsModel>
     {
         RuleFor(x => x.ContentComments)
             .NotEmpty().WithMessage("ContentsComment is required.")
-            .MaximumLength(200).WithMessage("ContentComment ia long.");
+            .MaximumLength(100).WithMessage("ContentComment ia long.");
 
         RuleFor(x => x.LeftTime)
             .NotEmpty().WithMessage("LeftTime is required.");

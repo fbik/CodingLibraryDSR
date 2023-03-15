@@ -1,6 +1,9 @@
 using Api.CodingLibraryDSR.Data.Context;
 using Api.CodingLibraryDSR.Data.Setup;
 using Api.Services;
+using Api.Services.Models;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +21,8 @@ builder.Services.AddScoped<ProblemsService>();
 builder.Services.AddScoped<SubscriptionsService>();
 builder.Services.AddScoped<UsersService>();
 builder.Services.AddAutoMapper(typeof(Program));
-
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<PostCategoriesModelValidator>();
 
 var app = builder.Build();
 

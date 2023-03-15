@@ -14,7 +14,7 @@ public class PostSubscriptionModelValidator : AbstractValidator<PostSubscription
     public PostSubscriptionModelValidator()
     {
         RuleFor(x => x.Uid)
-            .NotEmpty().WithMessage("Subscriptions is required.");
+            .NotEmpty().WithMessage("Id is required.");
 
         RuleFor(x => x.StatusSubscriptions)
             .NotEmpty().WithMessage("StatusSubscriptions is required.")
