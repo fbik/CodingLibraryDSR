@@ -9,16 +9,3 @@ public class GetSubscriptionsModel
     public Guid UsersId { get; set; }
     public string StatusSubscriptions { get; set; }
 }
-
-public class GetSubscriptionModelValidator : AbstractValidator<GetSubscriptionsModel>
-{
-    public GetSubscriptionModelValidator()
-    {
-        RuleFor(x => x.Uid)
-            .NotEmpty().WithMessage("Id is required.");
-
-        RuleFor(x => x.StatusSubscriptions)
-            .NotEmpty().WithMessage("StatusSubscriptions is required.")
-            .MaximumLength(100).WithMessage("StatusSubscriptions is long.");
-    }
-}

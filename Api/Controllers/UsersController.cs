@@ -1,6 +1,7 @@
 using Api.CodingLibraryDSR.Services.Models;
 using Api.Services.Models;
 using Api.Services;
+using Cache;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -9,23 +10,32 @@ using Microsoft.AspNetCore.Mvc;
 [Route("users")]
 public class UsersController : ControllerBase
 {
+    private readonly CacheService _cacheService;
     private readonly UsersService _usersService;
 
-    public UsersController(UsersService usersService)
+    public UsersController(UsersService usersService, CacheService cacheService)
     {
         _usersService = usersService;
+        _cacheService = cacheService;
     }
 
-    [HttpGet(Name = "GetUsers")]
-
-    public async Task<ICollection<UsersModel>> Get()
+    [HttpGet("get")]
+    
+    public async Task<ICollection<GetUsersModel>> Get()
     {
-        var result = await _usersService.GetAllUsers();
-        return result;
+        var cacheResult = await _cacheService.GetAsync<ICollection<GetUsersModel>>("Users");
+        if (cacheResult == null)
+        {
+            var result = await _usersService.GetAllUsers();
+            await _cacheService.SetAsync("Users", result);
+            return result;
+        }
+
+        return cacheResult;
     }
     
     [HttpPost("add")]
-
+    
     public IActionResult Post([FromBody] PostUsersModel request)
     {
         _usersService.SaveUsers(request);

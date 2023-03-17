@@ -8,12 +8,12 @@ public class MapperProfile : Profile
 {
     public MapperProfile()
     {
-        CreateMap<Languages, LanguagesModel>();
-        CreateMap<Users, UsersModel>();
-        CreateMap<Comments, CommentsModel>();
-        CreateMap<Problems, ProblemsModel>();
-        CreateMap<Categories, CategoriesModel>();
-        CreateMap<Subscriptions, SubscriptionsModel>();
+        CreateMap<Languages, GetLanguagesModel>();
+        CreateMap<Users, GetUsersModel>();
+        CreateMap<Comments, GetCommentsModel>();
+        CreateMap<Problems, GetProblemsModel>();
+        CreateMap<Categories, GetCategoriesModel>();
+        CreateMap<Subscriptions, GetSubscriptionsModel>();
         CreateMap<PostLanguagesModel, Languages>();
         CreateMap<UpdateLanguagesModel, Languages>();
         CreateMap<PostProblemsModel, Problems>();

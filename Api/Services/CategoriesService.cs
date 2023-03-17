@@ -20,13 +20,13 @@ namespace Api.Services;
             _mainDbContext = mainDbContext;
         }
         
-        public Task<ICollection<CategoriesModel>> GetAllCategories()
+        public Task<ICollection<GetCategoriesModel>> GetAllCategories()
         {
             var categories = _mainDbContext
                 .Categories
-                .Select(l => _mapper.Map<CategoriesModel>(l))
+                .Select(l => _mapper.Map<GetCategoriesModel>(l))
                 .ToList();
-            return Task.FromResult<ICollection<CategoriesModel>>(categories);
+            return Task.FromResult<ICollection<GetCategoriesModel>>(categories);
         }
         
         public void SaveCategory(PostCategoriesModel postCategoriesModel)

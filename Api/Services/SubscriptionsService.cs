@@ -16,13 +16,13 @@ public class SubscriptionsService
         _mainDbContext = mainDbContext;
     }
     
-    public Task<ICollection<SubscriptionsModel>> GetAllSubscriptions()
+    public Task<ICollection<GetSubscriptionsModel>> GetAllSubscriptions()
     {
         var subscriptions = _mainDbContext
             .Subscriptions
-            .Select(l => _mapper.Map<SubscriptionsModel>(l))
+            .Select(l => _mapper.Map<GetSubscriptionsModel>(l))
             .ToList();
-        return Task.FromResult<ICollection<SubscriptionsModel>>(subscriptions);
+        return Task.FromResult<ICollection<GetSubscriptionsModel>>(subscriptions);
     }
     
     public void SaveSubscription(PostSubscriptionsModel postSubscriptionsModel)

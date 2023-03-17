@@ -7,4 +7,8 @@ services:
       - "35432:5432"
     environment:
       POSTGRES_PASSWORD: strong
-    
+  cache:
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
+      - "8001:8001"  

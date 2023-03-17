@@ -1,6 +1,7 @@
 using Api.CodingLibraryDSR.Services.Models;
 using Api.Services;
 using Api.Services.Models;
+using Cache;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -9,19 +10,28 @@ using Microsoft.AspNetCore.Mvc;
 [Route("comments")]
 public class CommentsController : ControllerBase
 {
+    private readonly CacheService _cacheService;
     private readonly CommentsService _commentsService;
 
-    public CommentsController(CommentsService commentsService)
+    public CommentsController(CommentsService commentsService, CacheService cacheService)
     {
         _commentsService = commentsService;
+        _cacheService = cacheService;
     }
 
-    [HttpGet(Name = "GetComments")]
+    [HttpGet("get")]
     
-    public async Task<ICollection<CommentsModel>> Get()
+    public async Task<ICollection<GetCommentsModel>> Get()
     {
-        var result = await _commentsService.GetAllComments();
-        return result;
+        var cacheResult = await _cacheService.GetAsync<ICollection<GetCommentsModel>>("Comments");
+        if (cacheResult == null)
+        {
+            var result = await _commentsService.GetAllComments();
+            await _cacheService.SetAsync("Comments", result);
+            return result;
+        }
+
+        return cacheResult;
     }
     
     [HttpPost("post")]

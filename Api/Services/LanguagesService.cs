@@ -17,14 +17,14 @@ namespace Api.Services;
         }
 
 
-        public Task<ICollection<LanguagesModel>> GetAllLanguages()
+        public Task<ICollection<GetLanguagesModel>> GetAllLanguages()
         {
             var languages = _mainDbContext
                 .Languages
-                .Select(l => _mapper.Map<LanguagesModel>(l))   
+                .Select(l => _mapper.Map<GetLanguagesModel>(l))   
                 .ToList();
             
-            return Task.FromResult<ICollection<LanguagesModel>>(languages);
+            return Task.FromResult<ICollection<GetLanguagesModel>>(languages);
         }
 
         public void SaveLanguages(PostLanguagesModel postLanguagesModel)

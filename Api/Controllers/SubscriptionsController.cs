@@ -1,6 +1,6 @@
 using Api.CodingLibraryDSR.Services.Models;
 using Api.Services;
-
+using Cache;
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,21 +9,31 @@ using Microsoft.AspNetCore.Mvc;
 
 public class SubscriptionsController : ControllerBase
 {
+    private readonly CacheService _cacheService;
     private readonly SubscriptionsService _subscriptionsService;
 
-    public SubscriptionsController(SubscriptionsService subscriptionsService)
+    public SubscriptionsController(SubscriptionsService subscriptionsService, CacheService cacheService)
     {
         _subscriptionsService = subscriptionsService;
+        _cacheService = cacheService;
     }
 
-    [HttpGet(Name = "GetSubscription")]
-
-    public async Task<ICollection<SubscriptionsModel>> Get()
-    {
-        var result = await _subscriptionsService.GetAllSubscriptions();
-        return result;
-    }
+    [HttpGet("get")]
     
+    public async Task<ICollection<GetSubscriptionsModel>> Get()
+    {
+        var cacheResult = await _cacheService.GetAsync<ICollection<GetSubscriptionsModel>>("Subscriptions");
+        if (cacheResult == null)
+        {
+            var result = await _subscriptionsService.GetAllSubscriptions();
+            await _cacheService.SetAsync("Subscriptions", result);
+            return result;
+        }
+
+        return cacheResult;
+    }
+
+   
     [HttpPost("add")]
 
     public IActionResult Post([FromBody] PostSubscriptionsModel request)

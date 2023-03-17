@@ -19,14 +19,14 @@ public class ProblemsService
         _mainDbContext = mainDbContext;
     }
 
-    public Task<ICollection<ProblemsModel>> GetAllProblems()
+    public Task<ICollection<GetProblemsModel>> GetAllProblems()
     {
         var problems = _mainDbContext
             .Problems
-            .Select(l => _mapper.Map<ProblemsModel>(l))
+            .Select(l => _mapper.Map<GetProblemsModel>(l))
             .ToList();
 
-        return Task.FromResult<ICollection<ProblemsModel>>(problems);
+        return Task.FromResult<ICollection<GetProblemsModel>>(problems);
     }
 
     public void SaveProblems(PostProblemsModel postProblemsModel)

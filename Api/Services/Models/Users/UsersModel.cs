@@ -1,6 +1,6 @@
-namespace Api.CodingLibraryDSR.Services.Models;
+namespace Api.Services.Models;
 
-public class UsersModel
+public class GetUsersModel
 {
     public Guid Uid { get; set; }
     public string Name { get; set; } = String.Empty;

@@ -18,14 +18,14 @@ public class UsersService
         _mainDbContext = mainDbContext;
     }
     
-    public Task<ICollection<UsersModel>> GetAllUsers()
+    public Task<ICollection<GetUsersModel>> GetAllUsers()
     {
         var users = _mainDbContext
             .Users
-            .Select(l => _mapper.Map<UsersModel>(l))
+            .Select(l => _mapper.Map<GetUsersModel>(l))
             .ToList();
         
-        return Task.FromResult<ICollection<UsersModel>>(users);
+        return Task.FromResult<ICollection<GetUsersModel>>(users);
     }
 
     public void SaveUsers(PostUsersModel postUsersModel)

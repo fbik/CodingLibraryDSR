@@ -19,13 +19,13 @@ public class CommentsService
         _mainDbContext = mainDbContext;
     }
     
-    public Task<ICollection<CommentsModel>> GetAllComments()
+    public Task<ICollection<GetCommentsModel>> GetAllComments()
     {
         var comments = _mainDbContext
             .Comments
-            .Select(l => _mapper.Map<CommentsModel>(l))
+            .Select(l => _mapper.Map<GetCommentsModel>(l))
             .ToList();
-        return Task.FromResult<ICollection<CommentsModel>>(comments);
+        return Task.FromResult<ICollection<GetCommentsModel>>(comments);
     }
     
     public void SaveComment(PostCommentsModel postCommentsModel)
