@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CodingLibraryDSR.Data.Migrations
+namespace Api.Data.Migrations
 {
     [DbContext(typeof(MainDbContext))]
     partial class MainDbContextModelSnapshot : ModelSnapshot
@@ -17,12 +17,12 @@ namespace CodingLibraryDSR.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-preview.1.23111.4")
+                .HasAnnotation("ProductVersion", "7.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Categories", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Categories", b =>
                 {
                     b.Property<Guid>("Uid")
                         .ValueGeneratedOnAdd()
@@ -48,7 +48,7 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.ToTable("categories", (string)null);
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Comments", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Comments", b =>
                 {
                     b.Property<Guid>("Uid")
                         .ValueGeneratedOnAdd()
@@ -88,7 +88,7 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.ToTable("comments", (string)null);
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Languages", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Languages", b =>
                 {
                     b.Property<Guid>("Uid")
                         .ValueGeneratedOnAdd()
@@ -115,7 +115,7 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.ToTable("languages", (string)null);
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Problems", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Problems", b =>
                 {
                     b.Property<Guid>("Uid")
                         .ValueGeneratedOnAdd()
@@ -165,7 +165,7 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.ToTable("problems", (string)null);
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Subscriptions", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Subscriptions", b =>
                 {
                     b.Property<Guid>("Uid")
                         .ValueGeneratedOnAdd()
@@ -201,7 +201,7 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.ToTable("subscriptions", (string)null);
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Users", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Users", b =>
                 {
                     b.Property<Guid>("Uid")
                         .ValueGeneratedOnAdd()
@@ -238,16 +238,16 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Comments", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Comments", b =>
                 {
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Problems", "Problem")
+                    b.HasOne("Api.CodingLibraryDSR.Data.Entity.Problems", "Problem")
                         .WithMany("Comments")
                         .HasForeignKey("ProblemUid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_comments_problems_problem_temp_id");
 
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Users", "User")
+                    b.HasOne("Api.CodingLibraryDSR.Data.Entity.Users", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserUid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -259,16 +259,16 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Problems", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Problems", b =>
                 {
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Categories", "Category")
+                    b.HasOne("Api.CodingLibraryDSR.Data.Entity.Categories", "Category")
                         .WithMany("Problems")
                         .HasForeignKey("CategoryUid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_problems_categories_category_uid");
 
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Languages", "Language")
+                    b.HasOne("Api.CodingLibraryDSR.Data.Entity.Languages", "Language")
                         .WithMany("Problems")
                         .HasForeignKey("LanguageUid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -280,16 +280,16 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.Navigation("Language");
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Subscriptions", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Subscriptions", b =>
                 {
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Problems", "Problem")
+                    b.HasOne("Api.CodingLibraryDSR.Data.Entity.Problems", "Problem")
                         .WithMany("Subscritions")
                         .HasForeignKey("ProblemUid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_subscriptions_problems_problem_uid");
 
-                    b.HasOne("CodingLibraryDSR.Data.Entity.Users", "User")
+                    b.HasOne("Api.CodingLibraryDSR.Data.Entity.Users", "User")
                         .WithMany("Subscritions")
                         .HasForeignKey("UserUid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -301,24 +301,24 @@ namespace CodingLibraryDSR.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Categories", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Categories", b =>
                 {
                     b.Navigation("Problems");
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Languages", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Languages", b =>
                 {
                     b.Navigation("Problems");
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Problems", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Problems", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Subscritions");
                 });
 
-            modelBuilder.Entity("CodingLibraryDSR.Data.Entity.Users", b =>
+            modelBuilder.Entity("Api.CodingLibraryDSR.Data.Entity.Users", b =>
                 {
                     b.Navigation("Comments");
 

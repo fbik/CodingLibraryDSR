@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CodingLibraryDSR.Data.Migrations
+namespace Api.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -17,7 +17,7 @@ namespace CodingLibraryDSR.Data.Migrations
                 {
                     uid = table.Column<Guid>(type: "uuid", nullable: false),
                     title = table.Column<string>(type: "text", nullable: false),
-                    difficulty_index = table.Column<int>(type: "integer", nullable: false)
+                    difficultyindex = table.Column<int>(name: "difficulty_index", type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,8 +44,8 @@ namespace CodingLibraryDSR.Data.Migrations
                     uid = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
-                    password_hash = table.Column<string>(type: "text", nullable: false),
-                    user_status = table.Column<string>(type: "text", nullable: false)
+                    passwordhash = table.Column<string>(name: "password_hash", type: "text", nullable: false),
+                    userstatus = table.Column<string>(name: "user_status", type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,22 +60,22 @@ namespace CodingLibraryDSR.Data.Migrations
                     name = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     solution = table.Column<string>(type: "text", nullable: false),
-                    difficult_index = table.Column<int>(type: "integer", nullable: false),
-                    category_uid = table.Column<Guid>(type: "uuid", nullable: false),
-                    language_uid = table.Column<Guid>(type: "uuid", nullable: false)
+                    difficultindex = table.Column<int>(name: "difficult_index", type: "integer", nullable: false),
+                    categoryuid = table.Column<Guid>(name: "category_uid", type: "uuid", nullable: false),
+                    languageuid = table.Column<Guid>(name: "language_uid", type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_problems", x => x.uid);
                     table.ForeignKey(
                         name: "fk_problems_categories_category_uid",
-                        column: x => x.category_uid,
+                        column: x => x.categoryuid,
                         principalTable: "categories",
                         principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_problems_languages_language_uid",
-                        column: x => x.language_uid,
+                        column: x => x.languageuid,
                         principalTable: "languages",
                         principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
@@ -86,23 +86,23 @@ namespace CodingLibraryDSR.Data.Migrations
                 columns: table => new
                 {
                     uid = table.Column<Guid>(type: "uuid", nullable: false),
-                    content_comments = table.Column<string>(type: "text", nullable: false),
-                    left_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    problem_uid = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_uid = table.Column<Guid>(type: "uuid", nullable: false)
+                    contentcomments = table.Column<string>(name: "content_comments", type: "text", nullable: false),
+                    lefttime = table.Column<DateTime>(name: "left_time", type: "timestamp with time zone", nullable: false),
+                    problemuid = table.Column<Guid>(name: "problem_uid", type: "uuid", nullable: false),
+                    useruid = table.Column<Guid>(name: "user_uid", type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_comments", x => x.uid);
                     table.ForeignKey(
                         name: "fk_comments_problems_problem_temp_id",
-                        column: x => x.problem_uid,
+                        column: x => x.problemuid,
                         principalTable: "problems",
                         principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_comments_users_user_temp_id",
-                        column: x => x.user_uid,
+                        column: x => x.useruid,
                         principalTable: "users",
                         principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
@@ -113,22 +113,22 @@ namespace CodingLibraryDSR.Data.Migrations
                 columns: table => new
                 {
                     uid = table.Column<Guid>(type: "uuid", nullable: false),
-                    status_subscriptions = table.Column<string>(type: "text", nullable: false),
-                    problem_uid = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_uid = table.Column<Guid>(type: "uuid", nullable: false)
+                    statussubscriptions = table.Column<string>(name: "status_subscriptions", type: "text", nullable: false),
+                    problemuid = table.Column<Guid>(name: "problem_uid", type: "uuid", nullable: false),
+                    useruid = table.Column<Guid>(name: "user_uid", type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_subscriptions", x => x.uid);
                     table.ForeignKey(
                         name: "fk_subscriptions_problems_problem_uid",
-                        column: x => x.problem_uid,
+                        column: x => x.problemuid,
                         principalTable: "problems",
                         principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_subscriptions_users_user_temp_id1",
-                        column: x => x.user_uid,
+                        column: x => x.useruid,
                         principalTable: "users",
                         principalColumn: "uid",
                         onDelete: ReferentialAction.Cascade);
