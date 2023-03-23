@@ -1,7 +1,7 @@
-using Api.CodingLibraryDSR.Services.Models;
 using Api.Services.Models;
 using Api.Services;
 using Cache;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +26,10 @@ public class UsersController : ControllerBase
         var cacheResult = await _cacheService.GetAsync<ICollection<GetUsersModel>>("Users");
         if (cacheResult == null)
         {
+            var options = new DistributedCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromSeconds(20));
             var result = await _usersService.GetAllUsers();
-            await _cacheService.SetAsync("Users", result);
+            await _cacheService.SetAsync("Users", result, options);
             return result;
         }
 

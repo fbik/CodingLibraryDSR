@@ -1,8 +1,7 @@
-using Api.CodingLibraryDSR.Services.Models;
 using Api.Services;
 using Api.Services.Models;
 using Cache;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -28,8 +27,10 @@ public class LanguagesController : ControllerBase
         var cacheResult = await _cacheService.GetAsync<ICollection<GetLanguagesModel>>("languages");
         if (cacheResult == null)
         {
+            var options = new DistributedCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromSeconds(30));
             var result = await _languagesService.GetAllLanguages();
-            await _cacheService.SetAsync("languages", result);
+            await _cacheService.SetAsync("languages", result, options);
             return result;
         }
 

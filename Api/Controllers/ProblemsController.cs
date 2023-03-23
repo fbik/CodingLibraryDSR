@@ -1,7 +1,7 @@
-using Api.CodingLibraryDSR.Services.Models;
 using Api.Services;
 using Api.Services.Models;
 using Cache;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +23,13 @@ public class ProblemsController : ControllerBase
     
     public async Task<ICollection<GetProblemsModel>> Get()
     {
+        var options = new DistributedCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromSeconds(20));
         var cacheResult = await _cacheService.GetAsync<ICollection<GetProblemsModel>>("Problems");
         if (cacheResult == null)
         {
             var result = await _problemsService.GetAllProblems();
-            await _cacheService.SetAsync("Users", result);
+            await _cacheService.SetAsync("Users", result, options);
             return result;
         }
 

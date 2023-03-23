@@ -1,6 +1,8 @@
 using Api.CodingLibraryDSR.Services.Models;
 using Api.Services;
 using Cache;
+using Microsoft.Extensions.Caching.Distributed;
+
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,11 +24,13 @@ public class SubscriptionsController : ControllerBase
     
     public async Task<ICollection<GetSubscriptionsModel>> Get()
     {
+        var options = new DistributedCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromSeconds(30));
         var cacheResult = await _cacheService.GetAsync<ICollection<GetSubscriptionsModel>>("Subscriptions");
         if (cacheResult == null)
         {
             var result = await _subscriptionsService.GetAllSubscriptions();
-            await _cacheService.SetAsync("Subscriptions", result);
+            await _cacheService.SetAsync("Subscriptions", result, options);
             return result;
         }
 

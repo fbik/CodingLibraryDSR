@@ -1,7 +1,7 @@
-using Api.CodingLibraryDSR.Services.Models;
 using Api.Services;
 using Api.Services.Models;
 using Cache;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +23,13 @@ public class CommentsController : ControllerBase
     
     public async Task<ICollection<GetCommentsModel>> Get()
     {
+        var options = new DistributedCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromSeconds(20));
         var cacheResult = await _cacheService.GetAsync<ICollection<GetCommentsModel>>("Comments");
         if (cacheResult == null)
         {
             var result = await _commentsService.GetAllComments();
-            await _cacheService.SetAsync("Comments", result);
+            await _cacheService.SetAsync("Comments", result, options);
             return result;
         }
 

@@ -13,11 +13,11 @@ public class CacheService
         _cache = cache;
     }
 
-    public async Task SetAsync<T>(string key, T value, CancellationToken token = default)
+    public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options)
     {
         var json = JsonSerializer.Serialize(value);
         var data = Encoding.UTF8.GetBytes(json);
-        await _cache.SetAsync(key, data, token);
+        await _cache.SetAsync(key, data, options);
     }
 
     public async Task<T?> GetAsync<T>(string key)

@@ -1,7 +1,7 @@
-using Api.CodingLibraryDSR.Services.Models;
 using Api.Services;
 using Api.Services.Models;
 using Cache;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +26,10 @@ public class CategoriesController : ControllerBase
         var cacheResult = await _cacheService.GetAsync<ICollection<GetCategoriesModel>>("Categories");
         if (cacheResult == null)
         {
+            var options = new DistributedCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromSeconds(30));
             var result = await _categoriesService.GetAllCategories();
-            await _cacheService.SetAsync("Categories", result);
+            await _cacheService.SetAsync("Categories", result, options);
             return result;
         }
 
