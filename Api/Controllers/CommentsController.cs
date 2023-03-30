@@ -37,9 +37,9 @@ public class CommentsController : ControllerBase
     }
     
     [HttpPost("post")]
-    public IActionResult Post([FromBody] PostCommentsModel request)
+    public async Task<IActionResult> Post([FromBody] PostCommentsModel request)
     { 
-        _commentsService.SaveComment(request);
+        await _commentsService.SaveComment(request);
         return Ok("CommentPost");
     }
     

@@ -24,6 +24,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Cache\Cache.csproj" />
+      <ProjectReference Include="..\Notification\Notification.csproj" />
     </ItemGroup>
 
 </Project>

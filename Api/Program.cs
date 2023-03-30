@@ -5,6 +5,8 @@ using Api.Services.Models;
 using Cache;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Notification;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +24,19 @@ builder.Services.AddScoped<ProblemsService>();
 builder.Services.AddScoped<SubscriptionsService>();
 builder.Services.AddScoped<UsersService>();
 builder.Services.AddScoped<CacheService>();
+builder.Services.AddScoped<NotificationService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<PostCategoriesModelValidator>();
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = "localhost:6379";
+});
+
+builder.Services.AddSingleton<IConnectionFactory>(f => new ConnectionFactory
+{
+    HostName = "localhost",
+    Port = 5672
 });
 
 var app = builder.Build();
