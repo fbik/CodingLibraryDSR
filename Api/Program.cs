@@ -30,13 +30,16 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<PostCategoriesModelValidator>();
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = "localhost:6379";
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
 
+var rabbitAddress = builder
+    .Configuration
+    .GetConnectionString("Rabbit") ?? throw new Exception("No rabbit config");
 builder.Services.AddSingleton<IConnectionFactory>(f => new ConnectionFactory
 {
-    HostName = "localhost",
-    Port = 5672
+    HostName = rabbitAddress.Split(':')[0],
+    Port = Int32.Parse(rabbitAddress.Split(':')[1])
 });
 
 var app = builder.Build();
