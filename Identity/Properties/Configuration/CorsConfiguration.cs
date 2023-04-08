@@ -1,5 +1,4 @@
-using System.ComponentModel;
-using IdentityServer4.Services;
+using Duende.IdentityServer.Services;
 
 namespace Identity.Properties.Configuration;
 

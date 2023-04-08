@@ -1,6 +1,6 @@
-using Api.Data.Entity;
+using Database.Data.Entity;
 
-namespace Api.Data.Entity;
+namespace Database.Data.Entity;
 
 public class Comments : BaseEntity
 {

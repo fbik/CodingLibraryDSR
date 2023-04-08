@@ -1,6 +1,6 @@
 using AutoMapper;
-using Api.Data.Context;
-using Api.Data.Entity;
+using Database.Data.Context;
+using Database.Data.Entity;
 using Api.Services.Models;
 using Microsoft.EntityFrameworkCore;
 using Notification;

@@ -1,7 +1,7 @@
 //using Api.CodingLibraryDSR.Data.Context;
 
-using Api.Data.Entity;
-using Api.Data.Context;
+using Database.Data.Entity;
+using Database.Data.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
@@ -30,16 +30,12 @@ public static class Is4Configuration
 
         services
             .AddIdentityServer()
-
-            //.AddAspNetIdentity<Users>()
-
+            .AddAspNetIdentity<Users>()
             .AddInMemoryApiScopes(AppApiScopes.ApiScopes)
             .AddInMemoryClients(AppClients.Clients)
             .AddInMemoryApiResources(AppResources.Resources)
             .AddInMemoryIdentityResources(AppIdentityResources.Resources)
-
             .AddTestUsers(AppApiTestUsers.ApiUsers)
-
             .AddDeveloperSigningCredential();
 
         return services;
@@ -47,9 +43,7 @@ public static class Is4Configuration
 
     public static IApplicationBuilder UseIs4(this IApplicationBuilder app)
     {
-       // app.UseIdentityServer();
-
+        app.UseIdentityServer();
         return app;
     }
 }
-

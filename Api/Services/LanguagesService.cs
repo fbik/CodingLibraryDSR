@@ -1,6 +1,6 @@
 using Api.CodingLibraryDSR.Services.Models;
-using Api.Data.Context;
-using Api.Data.Entity;
+using Database.Data.Context;
+using Database.Data.Entity;
 using Api.Services.Models;
 using AutoMapper;
 

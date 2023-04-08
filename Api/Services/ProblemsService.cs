@@ -1,7 +1,7 @@
 using AutoMapper;
-using Api.Data.Context;
+using Database.Data.Context;
 using Api.Services.Models;
-using Api.Data.Entity;
+using Database.Data.Entity;
 using Api.Services.Models;
 
 namespace Api.Services;

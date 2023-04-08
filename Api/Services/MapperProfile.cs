@@ -1,4 +1,4 @@
-using Api.Data.Entity;
+using Database.Data.Entity;
 using Api.Services.Models;
 
 namespace Api.CodingLibraryDSR.Services.Models;

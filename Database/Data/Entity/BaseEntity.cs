@@ -1,4 +1,4 @@
-namespace Api.Data.Entity;
+namespace Database.Data.Entity;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

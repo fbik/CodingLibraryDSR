@@ -1,9 +1,10 @@
-using Api.Data.Entity;
+using Database.Data.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Api.Data.Context;
+namespace Database.Data.Context;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,7 +15,7 @@ public class MainDbContext : IdentityDbContext<Users, IdentityRole<Guid>, Guid>
     public DbSet<Problems> Problems { get; set; }
     public DbSet<Languages> Languages { get; set; }
     public DbSet<Categories> Categories { get; set; }
-    public DbSet<Users> Users { get; set; }
+    //public DbSet<Users> Users { get; set; }
     public DbSet<Comments> Comments { get; set; }
     public DbSet<Subscriptions> Subscriptions { get; set; }
 

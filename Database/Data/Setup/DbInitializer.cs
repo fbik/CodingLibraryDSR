@@ -1,9 +1,11 @@
-namespace Api.CodingLibraryDSR.Data.Setup;
+namespace Database.Data.Setup;
 
-using Api.Data.Context;
+using Database.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
-static class DbInitializer
+
+public static class DbInitializer
 {
     static public void Initialize(IServiceProvider serviceProvider)
     {
