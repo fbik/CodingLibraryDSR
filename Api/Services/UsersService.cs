@@ -1,7 +1,7 @@
 using AutoMapper;
-using Api.CodingLibraryDSR.Data.Context;
-using Api.CodingLibraryDSR.Data.Entity;
-using Api.CodingLibraryDSR.Services.Models;
+using Api.Data.Context;
+using Api.Data.Entity;
+using Api.Services.Models;
 using Api.Services.Models;
 
 namespace Api.Services;
@@ -44,12 +44,12 @@ public class UsersService
     
     public void DeleteUser(DeleteUsersModel deleteUsersModel)
     {
-        var user = _mainDbContext
-            .Users
-            .First(x => x.Uid == deleteUsersModel.Uid);
+        //var user = _mainDbContext
+            //.Users
+            //.First(x => x.Uid == deleteUsersModel.Uid);
 
 
-        _mainDbContext.Users.Remove(user);
+       // _mainDbContext.Users.Remove(user);
         _mainDbContext.SaveChanges();
     }
 }

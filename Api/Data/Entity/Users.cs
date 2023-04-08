@@ -1,7 +1,10 @@
-namespace Api.CodingLibraryDSR.Data.Entity;
+using Microsoft.AspNetCore.Identity;
 
-public class Users : BaseEntity
+namespace Api.Data.Entity;
+
+public class Users : IdentityUser<Guid>
 {
+    public string Uid { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public string PasswordHash { get; set; }

@@ -1,12 +1,14 @@
-using Api.CodingLibraryDSR.Data.Entity;
+using Api.Data.Entity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Api.CodingLibraryDSR.Data.Context;
+namespace Api.Data.Context;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-public class MainDbContext : DbContext
+public class MainDbContext : IdentityDbContext<Users, IdentityRole<Guid>, Guid>
 {
     private readonly IConfiguration _configuration;
     public DbSet<Problems> Problems { get; set; }

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using Api.CodingLibraryDSR.Data.Entity;
+using Api.Data.Entity;
 using Microsoft.AspNetCore.Mvc.Razor;
 
-namespace Api.CodingLibraryDSR.Data.Entity;
+namespace Api.Data.Entity;
 
 public class Problems : BaseEntity
 {

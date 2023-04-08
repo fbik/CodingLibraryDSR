@@ -1,6 +1,6 @@
 namespace Api.CodingLibraryDSR.Data.Setup;
 
-using Api.CodingLibraryDSR.Data.Context;
+using Api.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 static class DbInitializer

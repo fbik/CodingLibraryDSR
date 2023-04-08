@@ -1,6 +1,6 @@
 using AutoMapper;
-using Api.CodingLibraryDSR.Data.Context;
-using Api.CodingLibraryDSR.Data.Entity;
+using Api.Data.Context;
+using Api.Data.Entity;
 using Api.Services.Models;
 using Microsoft.EntityFrameworkCore;
 using Notification;
@@ -40,18 +40,18 @@ public class CommentsService
 
     private async Task notifyUser(PostCommentsModel postCommentsModel)
     {
-         await _mainDbContext
-            .Subscriptions
-            .Where(x => x.Problem.Uid == postCommentsModel.ProblemsId)
-            .Select(x => x.User)
-            .ForEachAsync(x => _notificationService.SendNotification(
-                new NotificationDTO(
-                    x.Uid,
-                    postCommentsModel.ProblemsId,
-                    postCommentsModel.Uid,
-                    postCommentsModel.UsersId
-                )
-            ));
+        //await _mainDbContext
+          //  .Subscriptions
+            //.Where(x => x.Problem.Uid == postCommentsModel.ProblemsId)
+            //.Select(x => x.User)
+            //.ForEachAsync(x => _notificationService.SendNotification(
+        // new NotificationDTO(
+        //x.Uid,
+        //postCommentsModel.ProblemsId,
+        // postCommentsModel.Uid,
+        //postCommentsModel.UsersId
+        // )
+        //);
     }
 
 
