@@ -1,3 +1,4 @@
+using Api.Configuration;
 using Database.Data.Context;
 using Database.Data.Setup;
 using Api.Services;
@@ -5,8 +6,10 @@ using Api.Services.Models;
 using Cache;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Identity.Properties.Configuration;
 using Notification;
 using RabbitMQ.Client;
+using UserAccount.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +30,7 @@ builder.Services.AddScoped<CacheService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddUserAccountService();
 builder.Services.AddValidatorsFromAssemblyContaining<PostCategoriesModelValidator>();
 builder.Services.AddStackExchangeRedisCache(options =>
 {

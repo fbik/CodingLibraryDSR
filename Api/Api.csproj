@@ -8,23 +8,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="12.0.1"/>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0"/>
-        <PackageReference Include="FluentValidation" Version="11.5.1"/>
-        <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2"/>
-        <PackageReference Include="StackExchange.Redis" Version="2.6.96"/>
-        <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="9.1.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+        <PackageReference Include="FluentValidation" Version="11.5.1" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+        <PackageReference Include="StackExchange.Redis" Version="2.6.96" />
+        <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="9.1.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Settings"/>
+        <Folder Include="Settings" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Cache\Cache.csproj"/>
-        <ProjectReference Include="..\Database\Database.csproj"/>
-        <ProjectReference Include="..\Notification\Notification.csproj"/>
+        <ProjectReference Include="..\Cache\Cache.csproj" />
+        <ProjectReference Include="..\Database\Database.csproj" />
+        <ProjectReference Include="..\Identity\Identity.csproj" />
+        <ProjectReference Include="..\Notification\Notification.csproj" />
     </ItemGroup>
 
 </Project>
