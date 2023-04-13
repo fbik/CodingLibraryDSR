@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="AutoMapper.Collection.EntityFrameworkCore" Version="9.0.0" />
+      <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     </ItemGroup>
 
     <ItemGroup>

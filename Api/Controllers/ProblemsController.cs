@@ -1,12 +1,15 @@
 using Api.Services;
 using Api.Services.Models;
 using Cache;
+using Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
+[Authorize]
 [Route("problems")]
 public class ProblemsController : ControllerBase
 {
@@ -19,7 +22,8 @@ public class ProblemsController : ControllerBase
         _cacheService = cacheService;
     }
 
-    [HttpGet("get")]
+    [HttpGet("{Id}")]
+    [Authorize(Policy = AppScopes.ProblemsRead)]
     
     public async Task<ICollection<GetProblemsModel>> Get()
     {
@@ -35,24 +39,30 @@ public class ProblemsController : ControllerBase
 
         return cacheResult;
     }
-    
 
-    [HttpPost("add")]
+    [Authorize(Policy = AppScopes.ProblemsWrite)]
+    [HttpPost("")]
 
     public IActionResult Post([FromBody] PostProblemsModel request)
     {
         _problemsService.SaveProblems(request);
         return Ok("ProblemsPost");
     }
+    
+    
 
-    [HttpPut("update")]
+    [HttpPut("{Id}")]
+    [Authorize(Policy = AppScopes.ProblemsWrite)]
+    
     public IActionResult Update([FromBody] UpdateProblemsModel updateProblemsModel)
     {
         _problemsService.UpdateProblems(updateProblemsModel);
         return Ok("ProblemsPut");
     }
     
-    [HttpDelete("delete")]
+    [HttpDelete("{Id}")]
+    [Authorize(Policy = AppScopes.ProblemsWrite)]
+    
     public IActionResult Delete([FromBody] DeleteProblemsModel deleteProblemsModel)
     {
         _problemsService.DeleteProblem(deleteProblemsModel);

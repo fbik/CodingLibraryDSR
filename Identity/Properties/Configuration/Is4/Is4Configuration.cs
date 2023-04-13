@@ -3,16 +3,11 @@
 using Database.Data.Entity;
 using Database.Data.Context;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 
 namespace Identity.Properties.Configuration;
 
 public static class Is4Configuration
 {
-    static Is4Configuration()
-    {
-    }
-
     public static IServiceCollection AddIs4(this IServiceCollection services)
     {
         services
@@ -21,6 +16,7 @@ public static class Is4Configuration
                 opt.Password.RequiredLength = 0;
                 opt.Password.RequireDigit = false;
                 opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
                 opt.Password.RequireNonAlphanumeric = false;
             })
             .AddEntityFrameworkStores<MainDbContext>()
@@ -30,6 +26,7 @@ public static class Is4Configuration
 
         services
             .AddIdentityServer()
+            
             .AddAspNetIdentity<Users>()
             .AddInMemoryApiScopes(AppApiScopes.ApiScopes)
             .AddInMemoryClients(AppClients.Clients)
@@ -44,6 +41,7 @@ public static class Is4Configuration
     public static IApplicationBuilder UseIs4(this IApplicationBuilder app)
     {
         app.UseIdentityServer();
+        
         return app;
     }
 }

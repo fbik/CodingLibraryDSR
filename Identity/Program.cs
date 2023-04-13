@@ -22,10 +22,13 @@ builder.Services.AddDbContextFactory<MainDbContext>();
 builder.Services.AddIdentitySettings();
 builder.Services.AddMainSettings();
 builder.Services.AddMainSettings();
+//builder.Services.AddApiScopes();
 
 //services.AddAppDbContext(builder.Configuration);
 
 services.AddAppHealthChecks();
+
+//services.AddAppAuth(identitySettings);
 
 //services.RegisterAppServices();
 

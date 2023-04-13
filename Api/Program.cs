@@ -32,6 +32,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddUserAccountService();
 builder.Services.AddValidatorsFromAssemblyContaining<PostCategoriesModelValidator>();
+builder.Services.AddAppAuth(new IdentitySettings());
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
@@ -57,6 +58,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseAuthentication();
+
+app.UseAppAuth();
 
 app.MapControllers();
 DbInitializer.Initialize(app.Services);
