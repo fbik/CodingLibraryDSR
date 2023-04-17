@@ -1,6 +1,14 @@
-using CodingLibraryDSR.Data.Context;
-using CodingLibraryDSR.Data.Setup;
-using Services.Models;
+using Database.Data.Context;
+using Database.Data.Setup;
+using Api.Services;
+using Api.Services;
+using Api.Services.ApiServices;
+using Cache;
+using FluentValidation.AspNetCore;
+using Identity.Properties.Configuration;
+using Notification;
+using RabbitMQ.Client;
+using UserAccount.UserAccount.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +24,31 @@ builder.Services.AddScoped<CategoriesService>();
 builder.Services.AddScoped<CommentsService>();
 builder.Services.AddScoped<ProblemsService>();
 builder.Services.AddScoped<SubscriptionsService>();
-builder.Services.AddScoped<UsersService>();
+builder.Services.AddScoped<CacheService>();
+builder.Services.AddScoped<NotificationService>();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddUserAccountService();
+builder.Services.AddAuthentication();
+builder.Services.AddAuthentication();
 
+
+//builder.Services.AddValidatorsFromAssemblyContaining<PostCategoriesModelValidator>();
+
+builder.Services.AddAppAuth(new IdentitySettings());
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
+var rabbitAddress = builder
+    .Configuration
+    .GetConnectionString("Rabbit") ?? throw new Exception("No rabbit config");
+builder.Services.AddSingleton<IConnectionFactory>(f => new ConnectionFactory
+{
+    HostName = rabbitAddress.Split(':')[0],
+    Port = Int32.Parse(rabbitAddress.Split(':')[1])
+});
 
 var app = builder.Build();
 
@@ -31,6 +61,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseAuthentication();
+
+app.UseAppAuth();
 
 app.MapControllers();
 DbInitializer.Initialize(app.Services);
