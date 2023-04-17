@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using UserAccount.Services;
+using UserAccount.UserAccount.Services;
 
-namespace UserAccount.Services;
+namespace UserAccount.UserAccount.Services;
 
 public static class Bootstrapper
 {
@@ -10,5 +10,9 @@ public static class Bootstrapper
         services.AddScoped<IUserAccountService, UserAccountService>();
 
         return services;
+    }
+
+    public class SwaggerSettings
+    {
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
-namespace UserAccount.Services;
+namespace UserAccount.UserAccount.Services;
 
 public static class AuthConfiguration
 {
@@ -38,7 +38,7 @@ public static class AuthConfiguration
             })
             .AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
             {
-                options.RequireHttpsMetadata = settings.Url.StartsWith("https://");
+                //options.RequireHttpsMetadata = settings.Url.StartsWith("https://");
                 options.Authority = settings.Url;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -58,6 +58,10 @@ public static class AuthConfiguration
                 policy.RequireClaim("scope", AppScopes.ProblemsRead));
             options.AddPolicy(AppScopes.ProblemsWrite, policy =>
                 policy.RequireClaim("scope", AppScopes.ProblemsWrite));
+            options.AddPolicy(AppScopes.ProblemsRead, policy =>
+                policy.RequireClaim("scope", AppScopes.CategoriesRead));
+            options.AddPolicy(AppScopes.ProblemsWrite, policy =>
+                policy.RequireClaim("scope", AppScopes.CategoriesWrite));
         });
 
         return services;

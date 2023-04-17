@@ -1,3 +1,6 @@
+using System;
+using Microsoft.Extensions.Configuration;
+
 namespace Identity.Properties.Configuration;
 
 public abstract class Settings

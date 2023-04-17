@@ -1,12 +1,15 @@
 using Api.Services;
 using Api.Services.Models;
 using Cache;
+using Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
+[Authorize]
 [Route("categories")]
 public class CategoriesController : ControllerBase
 {
@@ -20,6 +23,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet("get")]
+    [Authorize(Policy = AppScopes.CategoriesRead)]
 
     public async Task<ICollection<GetCategoriesModel>> Get()
     {
@@ -37,6 +41,7 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpPost("add")]
+    [Authorize(Policy = AppScopes.CategoriesWrite)]
 
     public IActionResult Post([FromBody] PostCategoriesModel request)
     {
@@ -45,6 +50,7 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpPut("put")]
+    [Authorize(Policy = AppScopes.CategoriesWrite)]
     public IActionResult Update([FromBody] UpdateCategoriesModel updateCategoriesModel)
     {
         _categoriesService.UpdateCategory(updateCategoriesModel);
@@ -52,6 +58,7 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpDelete("delete")]
+    [Authorize(Policy = AppScopes.CategoriesWrite)]
 
     public IActionResult Delete([FromBody] DeleteCategoriesModel deleteCategoriesModel)
     {

@@ -1,13 +1,14 @@
 using Database.Data.Context;
 using Identity.Properties.Configuration;
+using static Microsoft.AspNetCore.Builder.WebApplication;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = CreateBuilder(args);
 
 //builder.AddAppLogger();
 
-var mainSettings = Settings.Load<MainSettings>("Main");
-var swaggerSettings = Settings.Load<Bootstrapper.SwaggerSettings>("Swagger");
-var identitySettings = Settings.Load<IdentitySettings>("Identity");
+//var mainSettings = Settings.Load<MainSettings>("Main");
+//var swaggerSettings = Settings.Load<Bootstrapper.SwaggerSettings>("Swagger");
+//var identitySettings = Settings.Load<IdentitySettings>("Identity");
 
 
 var services = builder.Services;
@@ -20,19 +21,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextFactory<MainDbContext>();
 builder.Services.AddIdentitySettings();
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
+
 builder.Services.AddMainSettings();
-builder.Services.AddMainSettings();
-//builder.Services.AddApiScopes();
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
+builder.Services.AddAppHealthChecks();
 
-//services.AddAppDbContext(builder.Configuration);
-
-services.AddAppHealthChecks();
-
-//services.AddAppAuth(identitySettings);
-
-//services.RegisterAppServices();
-
-services.AddIs4();
+builder.Services.AddDbContext<MainDbContext>();
 
 var app = builder.Build();
 
@@ -44,6 +41,9 @@ if (app.Environment.IsDevelopment())
 
 //app.MapGet("/", () => "Hello World!");
 app.UseAppHealthChecks();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseIs4();
 

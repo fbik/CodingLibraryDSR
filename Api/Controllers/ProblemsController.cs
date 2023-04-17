@@ -22,7 +22,7 @@ public class ProblemsController : ControllerBase
         _cacheService = cacheService;
     }
 
-    [HttpGet("{Id}")]
+    [HttpGet("")]
     [Authorize(Policy = AppScopes.ProblemsRead)]
     
     public async Task<ICollection<GetProblemsModel>> Get()
@@ -51,7 +51,7 @@ public class ProblemsController : ControllerBase
     
     
 
-    [HttpPut("{Id}")]
+    [HttpPut("")]
     [Authorize(Policy = AppScopes.ProblemsWrite)]
     
     public IActionResult Update([FromBody] UpdateProblemsModel updateProblemsModel)
@@ -60,7 +60,7 @@ public class ProblemsController : ControllerBase
         return Ok("ProblemsPut");
     }
     
-    [HttpDelete("{Id}")]
+    [HttpDelete("")]
     [Authorize(Policy = AppScopes.ProblemsWrite)]
     
     public IActionResult Delete([FromBody] DeleteProblemsModel deleteProblemsModel)

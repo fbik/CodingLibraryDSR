@@ -1,8 +1,11 @@
 //using Api.CodingLibraryDSR.Data.Context;
 
+using System;
 using Database.Data.Entity;
 using Database.Data.Context;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Identity.Properties.Configuration;
 

@@ -1,7 +1,7 @@
 using Api.Services.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using UserAccount.Services;
+using UserAccount.UserAccount.Services;
 
 namespace Api.Controllers;
 

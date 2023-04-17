@@ -2,7 +2,7 @@ using AutoMapper;
 using Database.Data.Entity;
 using FluentValidation;
 
-namespace UserAccount.Services;
+namespace UserAccount.UserAccount.Services;
 
 public class UserAccountModel
 {

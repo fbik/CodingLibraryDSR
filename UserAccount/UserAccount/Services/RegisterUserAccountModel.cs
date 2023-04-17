@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace UserAccount.Services;
+namespace UserAccount.UserAccount.Services;
 
 public class RegisterUserAccountModel
 {

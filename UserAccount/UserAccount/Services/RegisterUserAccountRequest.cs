@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentValidation;
-using UserAccount.Services;
+using UserAccount.UserAccount.Services;
 
-namespace Api.Services.Models;
+namespace UserAccount.UserAccount.Services;
 
 public class RegisterUserAccountRequest
 {

@@ -1,5 +1,6 @@
 using Database.Data.Entity;
 using Api.Services.Models;
+using UserAccount.UserAccount.Services;
 
 namespace Api.CodingLibraryDSR.Services.Models;
 using AutoMapper;
@@ -28,5 +29,8 @@ public class MapperProfile : Profile
         CreateMap<DeleteCommentsModel, Comments>();
         CreateMap<PostSubscriptionsModel, Subscriptions>();
         CreateMap<DeleteSubscriptionsModel, Subscriptions>();
+        CreateMap<RegisterUserAccountRequest, RegisterUserAccountModel>();
+        CreateMap<Users, UserAccountModel>();
+        CreateMap<UserAccountModel, UserAccountResponse>();
     }
 }

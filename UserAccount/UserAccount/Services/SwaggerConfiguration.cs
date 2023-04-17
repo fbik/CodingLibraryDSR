@@ -1,12 +1,15 @@
 using System.Reflection;
 using Database.Data.Context;
 using Identity.Properties.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using UserAccount.UserAccount.Services;
 
-namespace Api.Configuration;
+namespace UserAccount.UserAccount.Services;
 
 public static class SwaggerConfiguration
 {
