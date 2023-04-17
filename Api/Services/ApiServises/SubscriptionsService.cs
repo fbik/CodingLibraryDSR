@@ -18,11 +18,11 @@ public class SubscriptionsService
     
     public Task<ICollection<GetSubscriptionsModel>> GetAllSubscriptions()
     {
-        var subscriptions = _mainDbContext
+        var subscription = _mainDbContext
             .Subscriptions
             .Select(l => _mapper.Map<GetSubscriptionsModel>(l))
             .ToList();
-        return Task.FromResult<ICollection<GetSubscriptionsModel>>(subscriptions);
+        return Task.FromResult<ICollection<GetSubscriptionsModel>>(subscription);
     }
     
     public void SaveSubscription(PostSubscriptionsModel postSubscriptionsModel)
@@ -44,8 +44,8 @@ public class SubscriptionsService
         var subscription = _mainDbContext
             .Subscriptions
             .First(x => x.Uid == deleteSubscriptionsModel.Uid);
-
-
+        
+        
         _mainDbContext.Subscriptions.Remove(subscription);
         _mainDbContext.SaveChanges();
     }

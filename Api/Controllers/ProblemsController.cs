@@ -24,7 +24,6 @@ public class ProblemsController : ControllerBase
 
     [HttpGet("")]
     [Authorize(Policy = AppScopes.ProblemsRead)]
-    
     public async Task<ICollection<GetProblemsModel>> Get()
     {
         var options = new DistributedCacheEntryOptions()
@@ -39,21 +38,17 @@ public class ProblemsController : ControllerBase
 
         return cacheResult;
     }
-
-    [Authorize(Policy = AppScopes.ProblemsWrite)]
+    
     [HttpPost("")]
-
+    [Authorize(Policy = AppScopes.ProblemsWrite)]
     public IActionResult Post([FromBody] PostProblemsModel request)
     {
         _problemsService.SaveProblems(request);
         return Ok("ProblemsPost");
     }
     
-    
-
     [HttpPut("")]
     [Authorize(Policy = AppScopes.ProblemsWrite)]
-    
     public IActionResult Update([FromBody] UpdateProblemsModel updateProblemsModel)
     {
         _problemsService.UpdateProblems(updateProblemsModel);
@@ -62,7 +57,6 @@ public class ProblemsController : ControllerBase
     
     [HttpDelete("")]
     [Authorize(Policy = AppScopes.ProblemsWrite)]
-    
     public IActionResult Delete([FromBody] DeleteProblemsModel deleteProblemsModel)
     {
         _problemsService.DeleteProblem(deleteProblemsModel);

@@ -1,4 +1,5 @@
 using System.Reflection;
+using Database;
 using Database.Data.Context;
 using Identity.Properties.Configuration;
 using Microsoft.AspNetCore.Builder;
@@ -48,12 +49,12 @@ public static class SwaggerConfiguration
                 {
                     Password = new OpenApiOAuthFlow
                     {
-                        // TokenUrl = new Uri($"{IdentitySettings.Url}"),
-                        //Scopes = new Dictinary<string, string>
-                        //{
-                        // { AppScopes.ProblemsRead, "ProblemsRead" },
-                        //{AppScopes.ProblemsWrite, "ProblemsWrite"}
-                        // }
+                         //TokenUrl = new Uri($"{IdentitySettings.Url}"),
+                         //Scopes = new Dictinary<string, string>
+                         //{
+                         //{ AppScopes.ProblemsRead, "ProblemsRead" },
+                         //{ AppScopes.ProblemsWrite, "ProblemsWrite" }
+                         //}
                     }
                 }
             });

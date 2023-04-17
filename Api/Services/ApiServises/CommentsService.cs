@@ -23,11 +23,11 @@ public class CommentsService
 
     public Task<ICollection<GetCommentsModel>> GetAllComments()
     {
-        var comments = _mainDbContext
+        var comment = _mainDbContext
             .Comments
             .Select(l => _mapper.Map<GetCommentsModel>(l))
             .ToList();
-        return Task.FromResult<ICollection<GetCommentsModel>>(comments);
+        return Task.FromResult<ICollection<GetCommentsModel>>(comment);
     }
 
     public async Task SaveComment(PostCommentsModel postCommentsModel)

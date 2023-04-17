@@ -1,12 +1,15 @@
 using Api.Services;
 using Api.Services.Models;
 using Cache;
+using Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
+[ApiController] 
+[Authorize]
 [Route("languages")]
 public class LanguagesController : ControllerBase
 {
@@ -21,7 +24,7 @@ public class LanguagesController : ControllerBase
     }
 
     [HttpGet("get")]
-
+    [Authorize(Policy = AppScopes.LanguagesRead)]
     public async Task<ICollection<GetLanguagesModel>> Get()
     {
         var cacheResult = await _cacheService.GetAsync<ICollection<GetLanguagesModel>>("languages");
@@ -37,9 +40,8 @@ public class LanguagesController : ControllerBase
         return cacheResult;
     }
     
-
     [HttpPost("add")]
-
+    [Authorize(Policy = AppScopes.LanguagesWrite)]
     public IActionResult Post([FromBody] PostLanguagesModel request)
     {
         _languagesService.SaveLanguages(request);
@@ -47,7 +49,7 @@ public class LanguagesController : ControllerBase
     }
 
     [HttpPut("update")]
-
+    [Authorize(Policy = AppScopes.LanguagesWrite)]
     public IActionResult Update([FromBody] UpdateLanguagesModel updateLanguagesModel)
     {
         _languagesService.UpdateLanguage(updateLanguagesModel);
@@ -55,7 +57,7 @@ public class LanguagesController : ControllerBase
     }
 
     [HttpDelete("delete")]
-
+    [Authorize(Policy = AppScopes.LanguagesWrite)]
     public IActionResult Delete([FromBody] DeleteLanguagesModel deleteLanguagesModel)
     {
         _languagesService.DeleteLanguage(deleteLanguagesModel);

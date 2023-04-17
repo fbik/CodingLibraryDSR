@@ -21,12 +21,12 @@ public class ProblemsService
 
     public Task<ICollection<GetProblemsModel>> GetAllProblems()
     {
-        var problems = _mainDbContext
+        var problem = _mainDbContext
             .Problems
             .Select(l => _mapper.Map<GetProblemsModel>(l))
             .ToList();
 
-        return Task.FromResult<ICollection<GetProblemsModel>>(problems);
+        return Task.FromResult<ICollection<GetProblemsModel>>(problem);
     }
 
     public void SaveProblems(PostProblemsModel postProblemsModel)

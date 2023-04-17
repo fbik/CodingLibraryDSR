@@ -20,7 +20,6 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("get")]
-    
     public async Task<ICollection<GetUsersModel>> Get()
     {
         var cacheResult = await _cacheService.GetAsync<ICollection<GetUsersModel>>("Users");
@@ -37,7 +36,6 @@ public class UsersController : ControllerBase
     }
     
     [HttpPost("add")]
-    
     public IActionResult Post([FromBody] PostUsersModel request)
     {
         _usersService.SaveUsers(request);
@@ -45,7 +43,6 @@ public class UsersController : ControllerBase
     }
     
     [HttpPut("update")]
-
     public IActionResult Update([FromBody] UpdateUsersModel updateUsersModel)
     {
         _usersService.UpdateUser(updateUsersModel);
@@ -53,7 +50,6 @@ public class UsersController : ControllerBase
     }
     
     [HttpDelete("delete")]
-
     public IActionResult Delete([FromBody] DeleteUsersModel deleteUsersModel)
     {
         _usersService.DeleteUser(deleteUsersModel);
