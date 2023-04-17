@@ -1,6 +1,8 @@
 using Database.Data.Context;
 using Database.Data.Setup;
 using Api.Services;
+using Api.Services;
+using Api.Services.ApiServices;
 using Cache;
 using FluentValidation.AspNetCore;
 using Identity.Properties.Configuration;
@@ -22,7 +24,6 @@ builder.Services.AddScoped<CategoriesService>();
 builder.Services.AddScoped<CommentsService>();
 builder.Services.AddScoped<ProblemsService>();
 builder.Services.AddScoped<SubscriptionsService>();
-builder.Services.AddScoped<UsersService>();
 builder.Services.AddScoped<CacheService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddAutoMapper(typeof(Program));

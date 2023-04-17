@@ -10,7 +10,6 @@ public class MapperProfile : Profile
     public MapperProfile()
     {
         CreateMap<Languages, GetLanguagesModel>();
-        CreateMap<Users, GetUsersModel>();
         CreateMap<Comments, GetCommentsModel>();
         CreateMap<Problems, GetProblemsModel>();
         CreateMap<Categories, GetCategoriesModel>();
@@ -19,9 +18,6 @@ public class MapperProfile : Profile
         CreateMap<UpdateLanguagesModel, Languages>();
         CreateMap<PostProblemsModel, Problems>();
         CreateMap<DeleteProblemsModel, Problems>();
-        CreateMap<PostUsersModel, Users>();
-        CreateMap<UpdateUsersModel, Users>();
-        CreateMap<DeleteUsersModel, Users>();
         CreateMap<PostCategoriesModel, Categories>();
         CreateMap<UpdateCategoriesModel, Categories>();
         CreateMap<DeleteCategoriesModel, Categories>();

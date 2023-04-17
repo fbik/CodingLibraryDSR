@@ -1,4 +1,5 @@
 using Api.Services;
+using Api.Services.ApiServices;
 using Api.Services.Models;
 using Cache;
 using Database;
@@ -43,7 +44,7 @@ public class CategoriesController : ControllerBase
     [Authorize(Policy = AppScopes.CategoriesWrite)]
     public IActionResult Post([FromBody] PostCategoriesModel request)
     {
-        _categoriesService.SaveCategory(request);
+        _categoriesService.SaveCategories(request);
         return Ok("CategoriesPost");
     }
     
@@ -51,7 +52,7 @@ public class CategoriesController : ControllerBase
     [Authorize(Policy = AppScopes.CategoriesWrite)]
     public IActionResult Update([FromBody] UpdateCategoriesModel updateCategoriesModel)
     {
-        _categoriesService.UpdateCategory(updateCategoriesModel);
+        _categoriesService.UpdateCategories(updateCategoriesModel);
         return Ok("CategoryPut");
     }
     
@@ -59,7 +60,7 @@ public class CategoriesController : ControllerBase
     [Authorize(Policy = AppScopes.CategoriesWrite)]
     public IActionResult Delete([FromBody] DeleteCategoriesModel deleteCategoriesModel)
     {
-        _categoriesService.DeleteCategory(deleteCategoriesModel);
+        _categoriesService.DeleteCategories(deleteCategoriesModel);
         return Ok("CategoryDelete");
     }
 }

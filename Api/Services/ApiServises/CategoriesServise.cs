@@ -3,20 +3,20 @@ using AutoMapper;
 using Database.Data.Context;
 using Database.Data.Entity;
 
-namespace Api.Services;
+namespace Api.Services.ApiServices;
 
-public class CategoriesServise
+public class CategoriesService
 {
     private readonly MainDbContext _mainDbContext;
     private readonly IMapper _mapper;
-    public CategoriesServise(MainDbContext mainDbContext, IMapper mapper)
+    public CategoriesService(MainDbContext mainDbContext, IMapper mapper)
     {
         _mapper = mapper;
         _mainDbContext = mainDbContext;
     }
 
 
-    public Task<ICollection<GetCategoriesModel>> GetAllLanguages()
+    public Task<ICollection<GetCategoriesModel>> GetAllCategories()
     {
         var categories = _mainDbContext
             .Categories
