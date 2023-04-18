@@ -27,6 +27,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddMainSettings();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
+builder.Services.AddAppCors();
 builder.Services.AddAppHealthChecks();
 
 builder.Services.AddDbContext<MainDbContext>();
@@ -44,6 +45,7 @@ app.UseAppHealthChecks();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors();
 
 app.UseIs4();
 
