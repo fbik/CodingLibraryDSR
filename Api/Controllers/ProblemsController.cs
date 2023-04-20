@@ -9,7 +9,7 @@ namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 [Route("problems")]
 public class ProblemsController : ControllerBase
 {
@@ -23,7 +23,7 @@ public class ProblemsController : ControllerBase
     }
 
     [HttpGet("")]
-    [Authorize(Policy = AppScopes.ProblemsRead)]
+    //[Authorize(Policy = AppScopes.ProblemsRead)]
     public async Task<ICollection<GetProblemsModel>> Get()
     {
         var options = new DistributedCacheEntryOptions()
@@ -40,7 +40,7 @@ public class ProblemsController : ControllerBase
     }
     
     [HttpPost("")]
-    [Authorize(Policy = AppScopes.ProblemsWrite)]
+    //[Authorize(Policy = AppScopes.ProblemsWrite)]
     public IActionResult Post([FromBody] PostProblemsModel request)
     {
         _problemsService.SaveProblems(request);
@@ -56,7 +56,7 @@ public class ProblemsController : ControllerBase
     }
     
     [HttpDelete("")]
-    [Authorize(Policy = AppScopes.ProblemsWrite)]
+    //[Authorize(Policy = AppScopes.ProblemsWrite)]
     public IActionResult Delete([FromBody] DeleteProblemsModel deleteProblemsModel)
     {
         _problemsService.DeleteProblem(deleteProblemsModel);

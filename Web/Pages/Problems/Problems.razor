@@ -1,0 +1,28 @@
+@page "/Problems"
+@using Web.Pages.Problems.Models
+@using Web.Pages.Problems.Service
+
+@inject ProblemsService problemsService
+
+<h1>Problems</h1>
+
+@foreach (var problems in ProblemsListItems)
+{
+    <div>@problems.LanguagesId, @problems.CategoriesId -
+        @problems.Description, @problems.Solution, @problems.DifficultyIndex</div>
+}
+
+@code {
+    private IEnumerable<ProblemsListItem> ProblemsListItems = new List<ProblemsListItem>();
+
+    private async Task ReloadData()
+    {
+        ProblemsListItems = await problemsService.GetProblems(0, 10000);
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+
+}
