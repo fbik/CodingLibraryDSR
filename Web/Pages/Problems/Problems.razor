@@ -1,28 +1,157 @@
-@page "/Problems"
-@using Web.Pages.Problems.Models
+@page "/problems"
 @using Web.Pages.Problems.Service
+@using Web.Pages.Problems.Models
+@using Web.Components
 
-@inject ProblemsService problemsService
+@layout MainLayout
 
-<h1>Problems</h1>
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IProblemsService ProblemsService
+@inject NavigationManager NavigationManager
 
-@foreach (var problems in ProblemsListItems)
-{
-    <div>@problems.LanguagesId, @problems.CategoriesId -
-        @problems.Description, @problems.Solution, @problems.DifficultyIndex</div>
-}
+<MudText Typo="Typo.h4" Class="ma-8">Problems</MudText>
+
+<MudTable Items="@ProblemsListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped"
+          Filter="new Func<ProblemsListItem,bool>(FilterFuncSimple)">
+    <ColGroup>
+        <col style="width:50px;" />
+        <col />
+        <col />
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" 
+                   Color="Color.Primary" OnClick="@((e) => AddProblems())">Add</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Uid</MudTh>
+        <MudTh>LanguagesId</MudTh>
+        <MudTh>CategoriesId</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Solution</MudTh>
+        <MudTh>DifficultyIndex</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Uid">@context.Uid</MudTd>
+        <MudTd DataLabel="Uid">@context.Id</MudTd>
+        <MudTd DataLabel="LanguageId">@context.LanguagesId</MudTd>
+        <MudTd DataLabel="CategoriesId">@context.CategoriesId</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd DataLabel="Solution">@context.Solution</MudTd>
+        <MudTd DataLabel="DifficultyIndex">@context.DifficultyIndex</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary"
+                           Size="Size.Small" OnClick="@((e) => EditProblems(context.Id))" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary"
+                           Size="Size.Small" OnClick="@((e) => DeleteProblems(context.Id))" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
 
 @code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = false;
+
+    private string searchString = "";
+
     private IEnumerable<ProblemsListItem> ProblemsListItems = new List<ProblemsListItem>();
 
     private async Task ReloadData()
     {
-        ProblemsListItems = await problemsService.GetProblems(0, 10000);
+        ProblemsListItems = await ProblemsService.GetProblems(0, 100000);
     }
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        return base.OnInitializedAsync();
+        try
+        {
+            await ReloadData();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private bool FilterFuncSimple(ProblemsListItem problemsListItem) => FilterFunc(problemsListItem, searchString);
+
+    private bool FilterFunc(ProblemsListItem problemsListItem, string searchString)
+    {
+        return
+            string.IsNullOrWhiteSpace(searchString)
+            ||
+            problemsListItem.LanguagesId.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            problemsListItem.CategoriesId.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            problemsListItem.Description.Contains(searchString)
+            ||
+            problemsListItem.Solution.Contains(searchString) 
+            ||
+            problemsListItem.DifficultyIndex.ToString().Contains(searchString) 
+            ;
+    }
+
+    private async Task AddProblems()
+    {
+        var parameters = new DialogParameters { };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<ProblemsDialog>("Add problems", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await ProblemsService.AddProblems(((ProblemsDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task EditProblems(int ProblemsId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ProblemsId", ProblemsId);
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<ProblemsDialog>("Edit Problems", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await ProblemsService.EditProblems(ProblemsId, ((ProblemsDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task DeleteProblems(int ProblemsId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this book? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete problems", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await ProblemsService.DeleteProblems(ProblemsId);
+            await ReloadData();
+        }
     }
 
 }
