@@ -1,10 +1,9 @@
 using System.Text;
 using System.Text.Json;
 using Web.Pages.Problems.Models;
-using Web.Pages.Problems.Models;
 namespace Web.Pages.Problems.Service;
 
-public class ProblemsService
+public class ProblemsService : IProblemsService
 {
     //private readonly ProblemsService _problemsService;
     private readonly HttpClient _httpClient;
@@ -32,9 +31,9 @@ public class ProblemsService
         return data;
     }
 
-    public async Task<ProblemsListItem> GetProblems(int problemsUid)
+    public async Task<ProblemsListItem> GetProblems(int problemsId)
     {
-        string url = $"{Settings.ApiRoot}/problems/{problemsUid}";
+        string url = $"{Settings.ApiRoot}/problems/{problemsId}";
 
         var response = await _httpClient.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
@@ -66,9 +65,9 @@ public class ProblemsService
         }
     }    
     
-    public async Task EditProblems(Guid problemsUid, ProblemsModel model)
+    public async Task EditProblems(int problemsId, ProblemsModel model)
     {
-        string url = $"{Settings.ApiRoot}/problems/{problemsUid}";
+        string url = $"{Settings.ApiRoot}/problems/{problemsId}";
 
         var body = JsonSerializer.Serialize(model);
         var request = new StringContent(body, Encoding.UTF8, "application/json");
@@ -83,9 +82,9 @@ public class ProblemsService
         }
     }
 
-    public async Task DeleteProblems(Guid problemsUid)
+    public async Task DeleteProblems(int problemsId)
     {
-        string url = $"{Settings.ApiRoot}/problems/{problemsUid}";
+        string url = $"{Settings.ApiRoot}/problems/{problemsId}";
 
         var response = await _httpClient.DeleteAsync(url);
         var content = await response.Content.ReadAsStringAsync();

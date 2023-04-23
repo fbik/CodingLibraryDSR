@@ -19,7 +19,8 @@ builder.Services.AddScoped(sp =>
     return client;
 });
 
-builder.Services.AddScoped<IProblemsService>();
+//builder.Services.AddScoped<IProblemsService>();
 builder.Services.AddScoped<IConfigurationService, ConfigurationService>();
+builder.Services.AddScoped<IProblemsService, ProblemsService>();
 
 await builder.Build().RunAsync();

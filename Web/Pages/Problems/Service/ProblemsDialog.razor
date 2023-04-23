@@ -1,7 +1,7 @@
 @using Web.Pages.Problems.Models
 @inherits MudComponentBase
 
-@inject IProblemsService problemsService
+@inject IProblemsService ProblemsService
 
 <MudDialog>
     <DialogContent>
@@ -61,13 +61,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var data = await problemsService.GetCategoriesList();
+        var data = await ProblemsService.GetCategoriesList();
         _categories.AddRange(data);
 
         isNew = ProblemsId == null;
         if (!isNew)
         {
-            var problems = await problemsService.GetProblems(ProblemsId ?? 0);
+            var problems = await ProblemsService.GetProblems(ProblemsId ?? 0);
 
             model.Uid = problems.Uid;
             model.Id = problems.Id;
