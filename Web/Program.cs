@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Web;
 using Web.Pages.Problems.Service;
 using MudBlazor.Services;
+using Web.Pages.Auth.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -20,6 +21,7 @@ builder.Services.AddScoped(sp =>
 });
 
 //builder.Services.AddScoped<IProblemsService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IConfigurationService, ConfigurationService>();
 builder.Services.AddScoped<IProblemsService, ProblemsService>();
 
