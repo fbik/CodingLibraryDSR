@@ -7,6 +7,7 @@ using Web.Pages.Problems.Service;
 using MudBlazor.Services;
 using Web.Pages.Auth.Services;
 using Microsoft.AspNetCore.Authorization;
+using Web.Providers;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -24,7 +25,7 @@ builder.Services.AddScoped(sp =>
 });
 
 //builder.Services.AddScoped<IProblemsService>();
-builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IConfigurationService, ConfigurationService>();
 builder.Services.AddScoped<IProblemsService, ProblemsService>();

@@ -97,7 +97,7 @@ public class ProblemsService : IProblemsService
 
     public async Task<IEnumerable<CategoriesModel>> GetCategoriesList()
     {
-        string url = $"{Settings.ApiRoot}/categories";
+        string url = $"{Settings.ApiRoot}/categories/get";
 
         var response = await _httpClient.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();

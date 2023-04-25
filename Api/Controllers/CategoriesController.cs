@@ -10,7 +10,7 @@ namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 [Route("categories")]
 public class CategoriesController : ControllerBase
 {
@@ -24,7 +24,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet("get")]
-    [Authorize(Policy = AppScopes.CategoriesRead)]
+    //[Authorize(Policy = AppScopes.CategoriesRead)]
     public async Task<ICollection<GetCategoriesModel>> Get()
     {
         var cacheResult = await _cacheService.GetAsync<ICollection<GetCategoriesModel>>("Categories");
@@ -41,7 +41,7 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpPost("add")]
-    [Authorize(Policy = AppScopes.CategoriesWrite)]
+    //[Authorize(Policy = AppScopes.CategoriesWrite)]
     public IActionResult Post([FromBody] PostCategoriesModel request)
     {
         _categoriesService.SaveCategories(request);
