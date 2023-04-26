@@ -8,6 +8,14 @@
         <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
             <MudGrid>
                 <MudItem xs="12" sm="6">
+                    <MudTextField Label="Name" @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Required="true"
+                                  RequiredError="Name is required!"
+                    >
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
                     <MudTextField Label="Description" @bind-Value="model.Description"
                                   For="@(() => model.Description)"
                                   Required="true"
@@ -16,20 +24,26 @@
                     </MudTextField>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <MudSelect @ref="selectCategories" T="int" Label="Categories" @bind-Value="model.CategoriesId"
-                               For="@(() => model.CategoriesId)">
-                        <MudSelectItem T=int Value="0">&nbsp;</MudSelectItem>
-                        @foreach (var categoties in _categories)
+                    <MudSelect T="string" Label="Language" @bind-Value="selectedLanguageName">
+                        @foreach (var name in _languageNames)
                         {
-                            <MudSelectItem T="string" Value="@categoties.Title">@categoties.Title</MudSelectItem>
+                            <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudSelect T="string" Label="Category" @bind-Value="selectedCategoryTitle">
+                        @foreach (var title in _categoryTitles)
+                        {
+                            <MudSelectItem T="string" Value="@title">@title</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12" >
-                    <MudTextField Label="Description"
+                    <MudTextField Label="Solution"
                                   Lines="5"
-                                  For="@(() => model.Description)"
-                                  @bind-Value="model.Description"></MudTextField>
+                                  For="@(() => model.Solution)"
+                                  @bind-Value="model.Solution"></MudTextField>
                 </MudItem>
             </MudGrid>
         </MudForm>
@@ -45,40 +59,32 @@
     MudDialogInstance MudDialog { get; set; } = default!;
 
     MudForm form = default!;
-    MudSelect<int> selectCategories = default!;
 
     ProblemsModelValidator modelValidator = new ProblemsModelValidator();
-
-    bool isNew = false;
-
+    
     [Parameter]
-    public int? ProblemsId { get; set; } = default;
-
-    [Parameter]
-    public ProblemsModel model { get; set; } = new() { CategoriesId = 0 };
-
-    private List<CategoriesModel> _categories { get; set; } = new List<CategoriesModel>();
-
-    protected override async Task OnInitializedAsync()
+    public ProblemsModel model { get; set; } = new()
     {
-        var data = await ProblemsService.GetCategoriesList();
-        _categories.AddRange(data);
+        Uid = Guid.NewGuid(),
+        DifficultyIndex = 3
+    };
 
-        isNew = ProblemsId == null;
-        if (!isNew)
-        {
-            var problems = await ProblemsService.GetProblems(ProblemsId ?? 0);
+    private IEnumerable<CategoriesModel> _categories = Enumerable.Empty<CategoriesModel>();
+    private IEnumerable<string> _categoryTitles = Enumerable.Empty<string>();
+    private string? selectedCategoryTitle;
+    
+    private IEnumerable<LanguagesModel> _languages = Enumerable.Empty<LanguagesModel>();
+    private IEnumerable<string> _languageNames = Enumerable.Empty<string>();
+    private string? selectedLanguageName;
 
-            model.Uid = problems.Uid;
-            model.Id = problems.Id;
-            model.Id = problems.CategoriesId;
-            model.Uid = problems.LanguagesId;
-            model.Description = problems.Description;
-            model.Solution = problems.Solution;
-            
-        }
+    protected override async void OnInitialized()
+    {
+        _categories = await ProblemsService.GetCategoriesList();
+        _categoryTitles = _categories.Select(c => c.Title);
 
-        await selectCategories.SelectOption(model.CategoriesId);
+        _languages = await ProblemsService.GetLanguagesList();
+        _languageNames = _languages.Select(l => l.Name);
+
         form.ResetValidation();
     }
 
@@ -87,6 +93,14 @@
         await form.Validate();
         if (form.IsValid)
         {
+            model.CategoriesUid = _categories
+                .First(c => c.Title == selectedCategoryTitle)
+                .Uid;
+            
+            model.LanguagesUid = _languages
+                .First(c => c.Name == selectedLanguageName)
+                .Uid;
+
             MudDialog.Close(DialogResult.Ok(true));
         }
     }

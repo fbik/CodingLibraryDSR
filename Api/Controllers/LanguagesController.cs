@@ -9,7 +9,7 @@ namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController] 
-[Authorize]
+//[Authorize]
 [Route("languages")]
 public class LanguagesController : ControllerBase
 {
@@ -24,7 +24,7 @@ public class LanguagesController : ControllerBase
     }
 
     [HttpGet("get")]
-    [Authorize(Policy = AppScopes.LanguagesRead)]
+    //[Authorize(Policy = AppScopes.LanguagesRead)]
     public async Task<ICollection<GetLanguagesModel>> Get()
     {
         var cacheResult = await _cacheService.GetAsync<ICollection<GetLanguagesModel>>("languages");
@@ -41,7 +41,7 @@ public class LanguagesController : ControllerBase
     }
     
     [HttpPost("add")]
-    [Authorize(Policy = AppScopes.LanguagesWrite)]
+    //[Authorize(Policy = AppScopes.LanguagesWrite)]
     public IActionResult Post([FromBody] PostLanguagesModel request)
     {
         _languagesService.SaveLanguages(request);

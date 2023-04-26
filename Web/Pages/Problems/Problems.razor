@@ -28,27 +28,26 @@
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>Uid</MudTh>
-        <MudTh>LanguagesId</MudTh>
-        <MudTh>CategoriesId</MudTh>
+        <MudTh>Language</MudTh>
+        <MudTh>Category</MudTh>
+        <MudTh>Name</MudTh>
         <MudTh>Description</MudTh>
         <MudTh>Solution</MudTh>
         <MudTh>DifficultyIndex</MudTh>
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Uid">@context.Uid</MudTd>
-        <MudTd DataLabel="int">@context.Id</MudTd>
-        <MudTd DataLabel="LanguageId">@context.LanguagesId</MudTd>
-        <MudTd DataLabel="CategoriesId">@context.CategoriesId</MudTd>
+        <MudTd DataLabel="Language">@context.Language</MudTd>
+        <MudTd DataLabel="Category">@context.Category</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
         <MudTd DataLabel="Description">@context.Description</MudTd>
         <MudTd DataLabel="Solution">@context.Solution</MudTd>
         <MudTd DataLabel="DifficultyIndex">@context.DifficultyIndex</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary"
-                           Size="Size.Small" OnClick="@((e) => EditProblems(context.Id))" />
+                           Size="Size.Small" OnClick="@((e) => EditProblems(context.Uid))" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary"
-                           Size="Size.Small" OnClick="@((e) => DeleteProblems(context.Id))" />
+                           Size="Size.Small" OnClick="@((e) => DeleteProblems(context.Uid))" />
         </MudTd>
     </RowTemplate>
     <PagerContent>
@@ -91,9 +90,7 @@
         return
             string.IsNullOrWhiteSpace(searchString)
             ||
-            problemsListItem.LanguagesId.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
-            ||
-            problemsListItem.CategoriesId.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            problemsListItem.Name.Contains(searchString)
             ||
             problemsListItem.Description.Contains(searchString)
             ||
@@ -118,10 +115,10 @@
         }
     }
 
-    private async Task EditProblems(int ProblemsId)
+    private async Task EditProblems(Guid ProblemsUid)
     {
         var parameters = new DialogParameters();
-        parameters.Add("ProblemsId", ProblemsId);
+        parameters.Add("ProblemsUid", ProblemsUid);
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
         var dialog = DialogService.Show<ProblemsDialog>("Edit Problems", parameters, options);
@@ -129,12 +126,12 @@
 
         if (!result.Cancelled)
         {
-            await ProblemsService.EditProblems(ProblemsId, ((ProblemsDialog)dialog.Dialog).model);
+            await ProblemsService.EditProblems(ProblemsUid, ((ProblemsDialog)dialog.Dialog).model);
             await ReloadData();
         }
     }
 
-    private async Task DeleteProblems(int ProblemsId)
+    private async Task DeleteProblems(Guid ProblemsUid)
     {
         var parameters = new DialogParameters();
         parameters.Add("ContentText", "Do you really want to delete this book? This process cannot be undone.");
@@ -148,7 +145,7 @@
 
         if (!result.Cancelled)
         {
-            await ProblemsService.DeleteProblems(ProblemsId);
+            await ProblemsService.DeleteProblems(ProblemsUid);
             await ReloadData();
         }
     }

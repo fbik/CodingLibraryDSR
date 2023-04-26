@@ -65,9 +65,9 @@ public class ProblemsService : IProblemsService
         }
     }    
     
-    public async Task EditProblems(int problemsId, ProblemsModel model)
+    public async Task EditProblems(Guid problemsUid, ProblemsModel model)
     {
-        string url = $"{Settings.ApiRoot}/problems/{problemsId}";
+        string url = $"{Settings.ApiRoot}/problems/{problemsUid}";
 
         var body = JsonSerializer.Serialize(model);
         var request = new StringContent(body, Encoding.UTF8, "application/json");
@@ -82,9 +82,9 @@ public class ProblemsService : IProblemsService
         }
     }
 
-    public async Task DeleteProblems(int problemsId)
+    public async Task DeleteProblems(Guid problemsUid)
     {
-        string url = $"{Settings.ApiRoot}/problems/{problemsId}";
+        string url = $"{Settings.ApiRoot}/problems/{problemsUid}";
 
         var response = await _httpClient.DeleteAsync(url);
         var content = await response.Content.ReadAsStringAsync();
@@ -109,6 +109,24 @@ public class ProblemsService : IProblemsService
 
         var data = JsonSerializer.Deserialize<IEnumerable<CategoriesModel>>(content,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<CategoriesModel>();
+
+        return data;
+    }
+    
+    public async Task<IEnumerable<LanguagesModel>> GetLanguagesList()
+    {
+        string url = $"{Settings.ApiRoot}/languages/get";
+
+        var response = await _httpClient.GetAsync(url);
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        var data = JsonSerializer.Deserialize<IEnumerable<LanguagesModel>>(content,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<LanguagesModel>();
 
         return data;
     }

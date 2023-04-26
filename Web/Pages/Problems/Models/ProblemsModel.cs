@@ -4,10 +4,11 @@ namespace Web.Pages.Problems.Models;
 
 public class ProblemsModel
 {
-    public Guid? Uid { get; set; }
-    public int? Id { get; set; }
-    public Guid LanguagesId { get; set; }
-    public int CategoriesId { get; set; }
+    public Guid Uid { get; set; }
+    public Guid LanguagesUid { get; set; }
+    public Guid CategoriesUid { get; set; }
+    
+    public string Name { get; set; }
     public string Description { get; set; } = String.Empty;
     public string Solution { get; set; } = String.Empty;
     public uint DifficultyIndex { get; set; }
@@ -21,7 +22,7 @@ public class ProblemsModelValidator : AbstractValidator<ProblemsModel>
             .NotEmpty().WithMessage("Description is required")
             .MaximumLength(255).WithMessage("Description is length");
 
-        RuleFor(v => v.CategoriesId)
+        RuleFor(v => v.CategoriesUid)
             .NotEmpty().WithMessage("Please, not categories");
     }
     
