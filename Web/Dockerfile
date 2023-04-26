@@ -14,7 +14,9 @@ RUN dotnet build "Web.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "Web.csproj" -c Release -o /app/publish
 
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Web.dll"]
+FROM nginx:alpine
+WORKDIR /var/www/web
+
+COPY --from=publish /app/publish/wwwroot .
+COPY Web/nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80

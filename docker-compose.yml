@@ -1,8 +1,36 @@
 version: "3.8"
 
 services:
+  
+  identity:
+    image: identity-image
+    container_name: identity
+    build:
+      context: .
+      dockerfile: Identity/Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "10001:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+  
+  web:
+    image: web-image
+    container_name: web
+    build:
+      context: .
+      dockerfile: Web/Dockerfile
+    depends_on:
+      - identity
+    ports:
+      - "10002:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      
   api: 
     image: api-image
+    container_name: api
     build:
       context: .
       dockerfile: Api/Dockerfile
