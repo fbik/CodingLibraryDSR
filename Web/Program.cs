@@ -29,5 +29,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStatePr
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IConfigurationService, ConfigurationService>();
 builder.Services.AddScoped<IProblemsService, ProblemsService>();
+builder.Services.AddScoped<Settings1>(serviceProvider => builder.Configuration.GetSection("Settings").Get<Settings1>());
+
 
 await builder.Build().RunAsync();

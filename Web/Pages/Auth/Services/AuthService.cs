@@ -18,25 +18,29 @@ public class AuthService : IAuthService
     private readonly HttpClient _httpClient;
     private readonly AuthenticationStateProvider _authenticationStateProvider;
     private readonly ILocalStorageService _localStorage;
+    private readonly Settings1 _settings1;
+
 
     public AuthService(HttpClient httpClient,
                        AuthenticationStateProvider authenticationStateProvider,
+                       Settings1 settings1,
                        ILocalStorageService localStorage)
     {
         _httpClient = httpClient;
         _authenticationStateProvider = authenticationStateProvider;
+        _settings1 = settings1;
         _localStorage = localStorage;
     }
 
     public async Task<LoginResult> Login(LoginModel loginModel)
     {
-        var url = $"{Settings.IdentityRoot}/connect/token";
+        var url = $"{_settings1.IdentityRoot}/connect/token";
 
         var request_body = new[] 
         {
             new KeyValuePair<string, string>("grant_type", "password"),
-            new KeyValuePair<string, string>("client_id", Settings.ClientId),
-            new KeyValuePair<string, string>("client_secret", Settings.ClientSecret),
+            new KeyValuePair<string, string>("client_id", _settings1.ClientId),
+            new KeyValuePair<string, string>("client_secret", _settings1.ClientSecret),
             new KeyValuePair<string, string>("username", loginModel.Email!),
             new KeyValuePair<string, string>("password", loginModel.Password!)
         };

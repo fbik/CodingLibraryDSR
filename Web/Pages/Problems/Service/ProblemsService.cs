@@ -7,15 +7,18 @@ public class ProblemsService : IProblemsService
 {
     //private readonly ProblemsService _problemsService;
     private readonly HttpClient _httpClient;
+    private readonly Settings1 _settings1;
 
-    public ProblemsService(HttpClient httpClient)
+
+    public ProblemsService(HttpClient httpClient, Settings1 settings1)
     {
         _httpClient = httpClient;
+        _settings1 = settings1;
     }
 
     public async Task<IEnumerable<ProblemsListItem>> GetProblems(int offset = 0, int limit = 10)
     {
-        string url = $"{Settings.ApiRoot}/problems?offset={offset}&limit={limit}";
+        string url = $"{_settings1.ApiRoot}/problems?offset={offset}&limit={limit}";
 
         var response = await _httpClient.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
@@ -33,7 +36,7 @@ public class ProblemsService : IProblemsService
 
     public async Task<ProblemsListItem> GetProblems(int problemsId)
     {
-        string url = $"{Settings.ApiRoot}/problems/{problemsId}";
+        string url = $"{_settings1.ApiRoot}/problems/{problemsId}";
 
         var response = await _httpClient.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
@@ -51,7 +54,7 @@ public class ProblemsService : IProblemsService
 
     public async Task AddProblems(ProblemsModel model)
     {
-        string url = $"{Settings.ApiRoot}/problems";
+        string url = $"{_settings1.ApiRoot}/problems";
 
         var body = JsonSerializer.Serialize(model);
         var request = new StringContent(body, Encoding.UTF8, "application/json");
@@ -67,7 +70,7 @@ public class ProblemsService : IProblemsService
     
     public async Task EditProblems(Guid problemsUid, ProblemsModel model)
     {
-        string url = $"{Settings.ApiRoot}/problems/{problemsUid}";
+        string url = $"{_settings1.ApiRoot}/problems/{problemsUid}";
 
         var body = JsonSerializer.Serialize(model);
         var request = new StringContent(body, Encoding.UTF8, "application/json");
@@ -84,7 +87,7 @@ public class ProblemsService : IProblemsService
 
     public async Task DeleteProblems(Guid problemsUid)
     {
-        string url = $"{Settings.ApiRoot}/problems/{problemsUid}";
+        string url = $"{_settings1.ApiRoot}/problems/{problemsUid}";
 
         var response = await _httpClient.DeleteAsync(url);
         var content = await response.Content.ReadAsStringAsync();
@@ -97,7 +100,7 @@ public class ProblemsService : IProblemsService
 
     public async Task<IEnumerable<CategoriesModel>> GetCategoriesList()
     {
-        string url = $"{Settings.ApiRoot}/categories/get";
+        string url = $"{_settings1.ApiRoot}/categories/get";
 
         var response = await _httpClient.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
@@ -115,7 +118,7 @@ public class ProblemsService : IProblemsService
     
     public async Task<IEnumerable<LanguagesModel>> GetLanguagesList()
     {
-        string url = $"{Settings.ApiRoot}/languages/get";
+        string url = $"{_settings1.ApiRoot}/languages/get";
 
         var response = await _httpClient.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();

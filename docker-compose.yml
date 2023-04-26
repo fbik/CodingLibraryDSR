@@ -36,6 +36,8 @@ services:
       dockerfile: Api/Dockerfile
     depends_on:
       - api-db  
+      - cache
+      - rabbitmq
     ports:
       - "10000:80"  
     environment:
@@ -48,6 +50,7 @@ services:
       POSTGRES_PASSWORD: strong
       
   cache:
+    container_name: cache
     image: redis/redis-stack:latest
     ports:
       - "6379:6379"
@@ -55,6 +58,7 @@ services:
       
         
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3.10.7-management
     hostname: rabbitmq
     restart: always

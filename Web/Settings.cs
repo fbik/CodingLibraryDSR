@@ -1,10 +1,9 @@
 namespace Web;
 
-public static class Settings
+public class Settings1
 {
-  public static string ApiRoot = "http://api";
-
-  public static string IdentityRoot = "http://localhost:5200";
-  public static string ClientId = "frontend";
-  public static string ClientSecret = "secret";
+  public string ApiRoot { get; set; }
+  public string IdentityRoot { get; set; }
+  public string ClientId { get; set; }
+  public string ClientSecret { get; set; }
 }
