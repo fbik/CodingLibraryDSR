@@ -9,7 +9,7 @@ namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 [Route("comments")]
 public class CommentsController : ControllerBase
 {
@@ -23,7 +23,7 @@ public class CommentsController : ControllerBase
     }
 
     [HttpGet("get")]
-    [Authorize(Policy = AppScopes.CommentsRead)]
+    //[Authorize(Policy = AppScopes.CommentsRead)]
     public async Task<ICollection<GetCommentsModel>> Get()
     {
         var options = new DistributedCacheEntryOptions()
@@ -40,7 +40,7 @@ public class CommentsController : ControllerBase
     }
     
     [HttpPost("post")]
-    [Authorize(Policy = AppScopes.CommentsWrite)]
+    //[Authorize(Policy = AppScopes.CommentsWrite)]
     public async Task<IActionResult> Post([FromBody] PostCommentsModel request)
     { 
         await _commentsService.SaveComment(request);
@@ -48,7 +48,7 @@ public class CommentsController : ControllerBase
     }
     
     [HttpPut("update")]
-    [Authorize(Policy = AppScopes.CommentsWrite)]
+    //[Authorize(Policy = AppScopes.CommentsWrite)]
    public IActionResult Update([FromBody] UpdateCommentsModel updateCommentsModel)
     {
         _commentsService.UpdateComment(updateCommentsModel);
@@ -56,7 +56,7 @@ public class CommentsController : ControllerBase
     }
     
    [HttpDelete("delete")]
-   [Authorize(Policy = AppScopes.CommentsWrite)]
+   //[Authorize(Policy = AppScopes.CommentsWrite)]
     public IActionResult Delete([FromBody] DeleteCommentsModel deleteCommentsModel)
     {
         _commentsService.DeleteComment(deleteCommentsModel);

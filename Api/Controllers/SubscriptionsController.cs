@@ -9,7 +9,7 @@ namespace Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 [Route("subscriptions")]
 
 public class SubscriptionsController : ControllerBase
@@ -24,7 +24,7 @@ public class SubscriptionsController : ControllerBase
     }
 
     [HttpGet("get")]
-    [Authorize(Policy = AppScopes.SubscriptionsRead)]
+    //[Authorize(Policy = AppScopes.SubscriptionsRead)]
     public async Task<ICollection<GetSubscriptionsModel>> Get()
     {
         var options = new DistributedCacheEntryOptions()
@@ -41,7 +41,7 @@ public class SubscriptionsController : ControllerBase
     }
     
     [HttpPost("add")]
-    [Authorize(Policy = AppScopes.SubscriptionsWrite)]
+    //[Authorize(Policy = AppScopes.SubscriptionsWrite)]
     public IActionResult Post([FromBody] PostSubscriptionsModel request)
     {
         _subscriptionsService.SaveSubscription(request);
@@ -49,7 +49,7 @@ public class SubscriptionsController : ControllerBase
     }
     
     [HttpPut("update")]
-     [Authorize(Policy = AppScopes.SubscriptionsWrite)]
+    // [Authorize(Policy = AppScopes.SubscriptionsWrite)]
     public IActionResult Update([FromBody] UpdateSubscriptionsModel updateSubscriptionsModel)
     {
         _subscriptionsService.UpdateSubscription(updateSubscriptionsModel);
@@ -57,7 +57,7 @@ public class SubscriptionsController : ControllerBase
     }
     
     [HttpDelete("delete")]
-    [Authorize(Policy = AppScopes.SubscriptionsWrite)]
+    //[Authorize(Policy = AppScopes.SubscriptionsWrite)]
     public IActionResult Delete([FromBody] DeleteSubscriptionsModel deleteSubscriptionsModel)
     {
         _subscriptionsService.DeleteSubscription(deleteSubscriptionsModel);

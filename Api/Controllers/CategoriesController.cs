@@ -49,7 +49,7 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpPut("put")]
-    [Authorize(Policy = AppScopes.CategoriesWrite)]
+    //[Authorize(Policy = AppScopes.CategoriesWrite)]
     public IActionResult Update([FromBody] UpdateCategoriesModel updateCategoriesModel)
     {
         _categoriesService.UpdateCategories(updateCategoriesModel);
@@ -57,7 +57,7 @@ public class CategoriesController : ControllerBase
     }
     
     [HttpDelete("delete")]
-    [Authorize(Policy = AppScopes.CategoriesWrite)]
+    //[Authorize(Policy = AppScopes.CategoriesWrite)]
     public IActionResult Delete([FromBody] DeleteCategoriesModel deleteCategoriesModel)
     {
         _categoriesService.DeleteCategories(deleteCategoriesModel);

@@ -48,7 +48,7 @@ public class ProblemsController : ControllerBase
     }
     
     [HttpPut("")]
-    [Authorize(Policy = AppScopes.ProblemsWrite)]
+    //[Authorize(Policy = AppScopes.ProblemsWrite)]
     public IActionResult Update([FromBody] UpdateProblemsModel updateProblemsModel)
     {
         _problemsService.UpdateProblems(updateProblemsModel);

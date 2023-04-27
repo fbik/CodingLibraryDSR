@@ -49,7 +49,7 @@ public class LanguagesController : ControllerBase
     }
 
     [HttpPut("update")]
-    [Authorize(Policy = AppScopes.LanguagesWrite)]
+    //[Authorize(Policy = AppScopes.LanguagesWrite)]
     public IActionResult Update([FromBody] UpdateLanguagesModel updateLanguagesModel)
     {
         _languagesService.UpdateLanguage(updateLanguagesModel);
@@ -57,7 +57,7 @@ public class LanguagesController : ControllerBase
     }
 
     [HttpDelete("delete")]
-    [Authorize(Policy = AppScopes.LanguagesWrite)]
+    //[Authorize(Policy = AppScopes.LanguagesWrite)]
     public IActionResult Delete([FromBody] DeleteLanguagesModel deleteLanguagesModel)
     {
         _languagesService.DeleteLanguage(deleteLanguagesModel);
