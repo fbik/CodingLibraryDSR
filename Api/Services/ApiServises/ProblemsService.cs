@@ -32,6 +32,8 @@ public class ProblemsService
     public void SaveProblems(PostProblemsModel postProblemsModel)
     {
         var result = _mapper.Map<Problems>(postProblemsModel);
+        result.Category = _mainDbContext.Categories.First(c => c.Uid == postProblemsModel.CategoriesUid);
+        result.Language = _mainDbContext.Languages.First(l => l.Uid == postProblemsModel.LanguagesUid);
         _mainDbContext.Problems.Add(result);
         _mainDbContext.SaveChanges();
     }

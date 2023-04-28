@@ -1,13 +1,43 @@
 version: "3.8"
 
 services:
+  
+  identity:
+    image: identity-image
+    container_name: identity
+    build:
+      context: .
+      dockerfile: Identity/Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "10001:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+  
+  web:
+    image: web-image
+    container_name: web
+    build:
+      context: .
+      dockerfile: Web/Dockerfile
+    depends_on:
+      - identity
+    ports:
+      - "10002:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      
   api: 
     image: api-image
+    container_name: api
     build:
       context: .
       dockerfile: Api/Dockerfile
     depends_on:
       - api-db  
+      - cache
+      - rabbitmq
     ports:
       - "10000:80"  
     environment:
@@ -20,6 +50,7 @@ services:
       POSTGRES_PASSWORD: strong
       
   cache:
+    container_name: cache
     image: redis/redis-stack:latest
     ports:
       - "6379:6379"
@@ -27,6 +58,7 @@ services:
       
         
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3.10.7-management
     hostname: rabbitmq
     restart: always

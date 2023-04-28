@@ -31,6 +31,7 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddUserAccountService();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthentication();
+builder.Services.AddAppCors();
 
 
 //builder.Services.AddValidatorsFromAssemblyContaining<PostCategoriesModelValidator>();
@@ -64,6 +65,7 @@ app.UseAuthorization();
 app.UseAuthentication();
 
 app.UseAppAuth();
+app.UseCors();
 
 app.MapControllers();
 DbInitializer.Initialize(app.Services);

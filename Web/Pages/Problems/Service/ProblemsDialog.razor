@@ -1,0 +1,109 @@
+@using Web.Pages.Problems.Models
+@inherits MudComponentBase
+
+@inject IProblemsService ProblemsService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Name" @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Required="true"
+                                  RequiredError="Name is required!"
+                    >
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Description" @bind-Value="model.Description"
+                                  For="@(() => model.Description)"
+                                  Required="true"
+                                  RequiredError="Description is required!"
+                    >
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudSelect T="string" Label="Language" @bind-Value="selectedLanguageName">
+                        @foreach (var name in _languageNames)
+                        {
+                            <MudSelectItem T="string" Value="@name">@name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudSelect T="string" Label="Category" @bind-Value="selectedCategoryTitle">
+                        @foreach (var title in _categoryTitles)
+                        {
+                            <MudSelectItem T="string" Value="@title">@title</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" >
+                    <MudTextField Label="Solution"
+                                  Lines="5"
+                                  For="@(() => model.Solution)"
+                                  @bind-Value="model.Solution"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+
+    ProblemsModelValidator modelValidator = new ProblemsModelValidator();
+    
+    [Parameter]
+    public ProblemsModel model { get; set; } = new()
+    {
+        Uid = Guid.NewGuid(),
+        DifficultyIndex = 3
+    };
+
+    private IEnumerable<CategoriesModel> _categories = Enumerable.Empty<CategoriesModel>();
+    private IEnumerable<string> _categoryTitles = Enumerable.Empty<string>();
+    private string? selectedCategoryTitle;
+    
+    private IEnumerable<LanguagesModel> _languages = Enumerable.Empty<LanguagesModel>();
+    private IEnumerable<string> _languageNames = Enumerable.Empty<string>();
+    private string? selectedLanguageName;
+
+    protected override async void OnInitialized()
+    {
+        _categories = await ProblemsService.GetCategoriesList();
+        _categoryTitles = _categories.Select(c => c.Title);
+
+        _languages = await ProblemsService.GetLanguagesList();
+        _languageNames = _languages.Select(l => l.Name);
+
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            model.CategoriesUid = _categories
+                .First(c => c.Title == selectedCategoryTitle)
+                .Uid;
+            
+            model.LanguagesUid = _languages
+                .First(c => c.Name == selectedLanguageName)
+                .Uid;
+
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}
